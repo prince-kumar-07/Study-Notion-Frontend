@@ -1,0 +1,192 @@
+.wrapper {
+  position: relative;
+  min-height: 100vh;
+  padding: 40px;
+  color: white;
+  font-family: "Inter", sans-serif;
+  overflow: hidden;
+  background: #0f172a;
+}
+
+/* Animated Floating Gradient */
+.bgGradient {
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, #3b82f6, transparent 70%);
+  top: -200px;
+  right: -200px;
+  opacity: 0.25;
+  animation: float 10s ease-in-out infinite;
+}
+
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(40px); }
+  100% { transform: translateY(0px); }
+}
+
+.header h1 {
+  font-size: 28px;
+  margin-bottom: 30px;
+}
+
+/* Glass Table */
+.table {
+  backdrop-filter: blur(20px);
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 20px;
+  padding: 20px;
+}
+
+/* Row Card */
+.row {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1.5fr 0.5fr;
+  align-items: center;
+  padding: 20px;
+  border-radius: 16px;
+  transition: 0.4s ease;
+  position: relative;
+}
+
+.row:hover {
+  background: rgba(255, 255, 255, 0.07);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+  transform: translateY(-5px);
+}
+
+/* Course */
+.courseInfo {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+.courseInfo img {
+  width: 60px;
+  height: 60px;
+  border-radius: 14px;
+  object-fit: cover;
+}
+
+.courseInfo h3 {
+  margin: 0;
+}
+
+.courseInfo p {
+  font-size: 12px;
+  color: #94a3b8;
+}
+
+/* Student Badge */
+.studentBadge {
+  margin-top: 8px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  font-size: 12px;
+  border-radius: 50px;
+  background: rgba(59, 130, 246, 0.15);
+  color: #38bdf8;
+}
+
+/* Price */
+.price {
+  font-weight: 600;
+  color: #22d3ee;
+}
+
+/* Progress */
+.progressWrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.progressBar {
+  width: 140px;
+  height: 6px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 30px;
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  background: linear-gradient(90deg, #22c55e, #3b82f6);
+}
+
+/* Dropdown */
+.action {
+  position: relative;
+  cursor: pointer;
+}
+
+.dropdown {
+  position: absolute;
+  right: 0;
+  top: 30px;
+  background: rgba(30, 41, 59, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.dropdown button {
+  background: none;
+  border: none;
+  color: white;
+  padding: 6px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.dropdown button:hover {
+  background: rgba(255,255,255,0.1);
+}
+
+.remove {
+  color: #ef4444;
+}
+
+/* Skeleton */
+.skeletonContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.skeletonCard {
+  height: 80px;
+  border-radius: 16px;
+  background: linear-gradient(
+    90deg,
+    rgba(255,255,255,0.05) 25%,
+    rgba(255,255,255,0.1) 50%,
+    rgba(255,255,255,0.05) 75%
+  );
+  background-size: 400% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% { background-position: 100% 0; }
+  100% { background-position: -100% 0; }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .row {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .progressBar {
+    width: 100%;
+  }
+}

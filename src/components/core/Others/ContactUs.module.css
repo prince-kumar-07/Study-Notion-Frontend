@@ -1,0 +1,141 @@
+.container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #0f172a, #1e293b);
+  padding: 40px 20px;
+  gap: 50px;
+  flex-wrap: wrap;
+  font-family: "Poppins", sans-serif;
+}
+
+/* LEFT SIDE */
+.infoSection {
+  flex: 1;
+  max-width: 450px;
+  color: white;
+}
+
+.title {
+  font-size: 42px;
+  margin-bottom: 15px;
+  background: linear-gradient(to right, #38bdf8, #6366f1);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.subtitle {
+  margin-bottom: 30px;
+  color: #cbd5e1;
+}
+
+.infoCard {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 15px 20px;
+  margin-bottom: 20px;
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+  transition: 0.3s ease;
+}
+
+.infoCard:hover {
+  transform: translateY(-5px);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* RIGHT SIDE */
+.formSection {
+  flex: 1;
+  max-width: 500px;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 40px;
+  border-radius: 20px;
+  backdrop-filter: blur(20px);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+}
+
+.formTitle {
+  color: white;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+/* FORM */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.inputGroup {
+  position: relative;
+}
+
+.inputGroup input,
+.inputGroup textarea {
+  width: 100%;
+  padding: 12px 10px;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid #64748b;
+  color: white;
+  font-size: 16px;
+  outline: none;
+  resize: none;
+}
+
+.inputGroup label {
+  position: absolute;
+  top: 12px;
+  left: 10px;
+  color: #94a3b8;
+  pointer-events: none;
+  transition: 0.3s ease;
+}
+
+.inputGroup input:focus + label,
+.inputGroup input:valid + label,
+.inputGroup textarea:focus + label,
+.inputGroup textarea:valid + label {
+  top: -10px;
+  font-size: 13px;
+  color: #38bdf8;
+}
+
+.inputGroup input:focus,
+.inputGroup textarea:focus {
+  border-bottom: 2px solid #38bdf8;
+}
+
+/* BUTTON */
+.submitBtn {
+  padding: 14px;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(90deg, #38bdf8, #6366f1);
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.submitBtn:hover {
+  opacity: 0.9;
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .container {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .infoSection {
+    max-width: 100%;
+  }
+
+  .formSection {
+    max-width: 100%;
+  }
+}

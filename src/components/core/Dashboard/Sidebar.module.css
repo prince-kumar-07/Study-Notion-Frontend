@@ -1,0 +1,146 @@
+.sidebar {
+  width: 250px;
+  height: 100vh;
+  background: #0f172a;
+  border-right: 1px solid #1e293b;
+  padding: 30px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: fixed;
+  left: 0;
+  top: 0;
+  transition: transform 0.3s ease;
+  z-index: 1000;
+}
+
+.heading {
+  font-size: 18px;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 30px;
+}
+
+.links {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  text-decoration: none;
+  color: #cbd5e1;
+  font-size: 14px;
+  transition: 0.2s ease;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.link:hover {
+  background: #1e293b;
+  color: #fff;
+}
+
+.activeLink {
+  composes: link;
+  background: linear-gradient(90deg, #7c3aed, #6366f1);
+  color: #fff;
+}
+
+.icon {
+  font-size: 18px;
+}
+
+.bottomLinks {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Mobile */
+
+.mobileHeader {
+  display: none;
+}
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 999;
+}
+
+.show {
+  transform: translateX(0);
+}
+
+@media (max-width: 900px) {
+  .sidebar {
+    transform: translateX(-100%);
+  }
+
+  .mobileHeader {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+  }
+
+  .closeBtn {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+  }
+}
+
+/* Logout Modal */
+
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+.modal {
+  background: #0f172a;
+  padding: 30px;
+  border-radius: 12px;
+  width: 320px;
+  border: 1px solid #1e293b;
+  text-align: center;
+  color: white;
+}
+
+.modalActions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.cancelBtn {
+  padding: 8px 16px;
+  border-radius: 6px;
+  background: #334155;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+
+.confirmBtn {
+  padding: 8px 16px;
+  border-radius: 6px;
+  background: linear-gradient(90deg, #ef4444, #dc2626);
+  border: none;
+  color: white;
+  cursor: pointer;
+}

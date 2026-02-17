@@ -1,0 +1,50 @@
+.code-wrapper {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  border-radius: 20px;
+  position: relative;
+  overflow: hidden;
+
+  /* Glass background */
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Neon AI Glow */
+.neon-glow {
+  box-shadow:
+    0 0 20px rgba(0, 255, 255, 0.3),
+    0 0 40px rgba(0, 140, 255, 0.4),
+    0 0 80px rgba(99, 102, 241, 0.4);
+}
+
+/* Remove grey token backgrounds */
+.code-wrapper span {
+  background: transparent !important;
+}
+
+.code-wrapper pre,
+.code-wrapper code {
+  background: transparent !important;
+}
+
+/* Line numbers styling */
+.code-wrapper .react-syntax-highlighter-line-number {
+  color: rgba(255, 255, 255, 0.3) !important;
+  padding-right: 20px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .code-wrapper {
+    max-width: 100%;
+  }
+
+  .code-wrapper pre {
+    font-size: 12px !important;
+  }
+}

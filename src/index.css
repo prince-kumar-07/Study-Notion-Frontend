@@ -1,0 +1,30 @@
+
+/* Optional: Hide vertical scroll if not needed */
+body {
+
+  font-family: "DM Sans", sans-serif;  /* or hidden if you want no vertical scroll */
+}
+
+
+/* RESET */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* FORCE FULL HEIGHT */
+html, body, #root {
+  height: 100%;
+  width: 100%;
+}
+
+/* REMOVE DEFAULT WHITE */
+html {
+  background-color: #020617;
+}
+
+body {
+  background-color: #020617;
+  overflow-x: hidden;
+}

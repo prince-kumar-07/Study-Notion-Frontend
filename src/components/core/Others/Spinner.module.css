@@ -1,0 +1,80 @@
+/* ===== Overlay Blur Background ===== */
+.overlay {
+  position: fixed;
+  inset: 0;
+  backdrop-filter: blur(8px);
+  background: rgba(15, 23, 42, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+/* ===== Glass Floating Card ===== */
+.glassCard {
+  width: 280px;
+  height: 220px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.5),
+    0 0 25px rgba(96, 165, 250, 0.2);
+
+  animation: float 3s ease-in-out infinite;
+}
+
+/* ===== Ultra Thin Modern Spinner ===== */
+.spinner {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 3px solid rgba(255, 255, 255, 0.08);
+  border-top: 3px solid #60a5fa;
+  border-right: 3px solid #a78bfa;
+  animation: spin 0.8s linear infinite;
+}
+
+/* ===== Typing Text ===== */
+.text {
+  margin-top: 20px;
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  color: #e2e8f0;
+  display: flex;
+  align-items: center;
+}
+
+/* ===== Blinking Cursor ===== */
+.cursor {
+  margin-left: 4px;
+  animation: blink 1s infinite;
+  color: #60a5fa;
+}
+
+/* ===== Animations ===== */
+
+@keyframes spin {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-6px); }
+  100% { transform: translateY(0px); }
+}
+
+@keyframes blink {
+  0%, 50%, 100% { opacity: 1; }
+  25%, 75% { opacity: 0; }
+}

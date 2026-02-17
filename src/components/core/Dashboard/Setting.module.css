@@ -1,0 +1,346 @@
+.wrapper {
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  padding: 60px 40px 120px;
+  background: linear-gradient(135deg, #0f172a, #1e1b4b);
+  color: white;
+  font-family: "Inter", sans-serif;
+}
+
+
+
+/* Title */
+.title {
+  font-size: 30px;
+  font-weight: 600;
+  margin-bottom: 30px;
+}
+
+/* Card */
+.card {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(18px);
+  border-radius: 18px;
+  padding: 35px;
+  margin-bottom: 35px;
+  transition: 0.3s ease;
+  
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+/* Avatar Section */
+.imageSection {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+  margin-bottom: 35px;
+}
+
+.avatar {
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid rgba(255, 255, 255, 0.1);
+}
+
+.imageButtons {
+  display: flex;
+  gap: 12px;
+}
+
+.selectBtn,
+.uploadBtn {
+  padding: 8px 16px;
+  border-radius: 10px;
+  font-size: 14px;
+  cursor: pointer;
+  border: none;
+  transition: 0.3s ease;
+}
+
+.selectBtn {
+  background: rgba(255, 255, 255, 0.08);
+  color: white;
+}
+
+.selectBtn:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.uploadBtn {
+  background: linear-gradient(135deg, #7c3aed, #9333ea);
+  color: white;
+}
+
+.uploadBtn:hover {
+  box-shadow: 0 10px 25px rgba(124, 58, 237, 0.5);
+}
+
+/* Grid Layout */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 25px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+}
+
+.field label {
+  font-size: 14px;
+  margin-bottom: 8px;
+  color: #cbd5e1;
+}
+
+.field input,
+.field select,
+.field textarea {
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.05);
+  color: white;
+  font-size: 14px;
+  transition: 0.3s ease;
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+  outline: none;
+  border-color: #7c3aed;
+  box-shadow: 0 0 12px rgba(124, 58, 237, 0.6);
+}
+
+.field textarea {
+  resize: none;
+}
+
+.fullWidth {
+  grid-column: span 2;
+}
+
+/* DOB row */
+.dobRow {
+  display: flex;
+  gap: 10px;
+}
+
+/* Password Input Wrapper */
+.inputWrapper {
+  display: flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  padding: 0 12px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.inputWrapper input {
+  flex: 1;
+  padding: 12px;
+  background: transparent;
+  border: none;
+  color: white;
+}
+
+.inputWrapper input:focus {
+  outline: none;
+}
+
+.inputWrapper svg {
+  margin-right: 8px;
+  color: #94a3b8;
+}
+
+/* Buttons */
+.primaryBtn,
+.secondaryBtn {
+  margin-top: 25px;
+  padding: 14px 22px;
+  border-radius: 12px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  background: linear-gradient(135deg, #7c3aed, #9333ea);
+  color: white;
+  transition: 0.3s ease;
+}
+
+.primaryBtn:hover,
+.secondaryBtn:hover {
+  box-shadow: 0 12px 30px rgba(124, 58, 237, 0.6);
+  transform: translateY(-2px);
+}
+
+/* Password Card Title */
+.passwordCard h2 {
+  margin-bottom: 20px;
+}
+
+/* Danger Section */
+.dangerCard {
+  border: 1px solid rgba(239, 68, 68, 0.6);
+  background: linear-gradient(
+    135deg,
+    rgba(239, 68, 68, 0.08),
+    rgba(239, 68, 68, 0.03)
+  );
+  border-radius: 22px;
+  padding: 50px 60px;
+  margin-top: 40px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* subtle inner glow */
+.dangerCard::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at top left,
+    rgba(239, 68, 68, 0.15),
+    transparent 60%
+  );
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+/* Title */
+.dangerTitle {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+/* Description */
+.dangerCard p {
+  color: #fca5a5;
+  font-size: 15px;
+  margin-bottom: 28px;
+}
+
+/* Button */
+.dangerBtn {
+  padding: 14px 28px;
+  border-radius: 14px;
+  border: none;
+  background: rgba(239, 68, 68, 0.25);
+  color: #ef4444;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.dangerBtn:hover {
+  background: #ef4444;
+  color: white;
+  box-shadow: 0 15px 35px rgba(239, 68, 68, 0.6);
+  transform: translateY(-2px);
+}
+
+
+
+/* Responsive */
+@media (max-width: 768px) {
+  .wrapper {
+    padding: 20px;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .fullWidth {
+    grid-column: span 1;
+  }
+
+  .imageSection {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .dobRow {
+    flex-direction: column;
+  }
+}
+/* Disabled Inputs */
+.field input:disabled,
+.field textarea:disabled,
+.field select:disabled {
+  background: rgba(255, 255, 255, 0.03);
+  color: #94a3b8;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  cursor: not-allowed;
+  opacity: 0.8;
+}
+
+/* Remove focus glow from disabled */
+.field input:disabled:focus,
+.field textarea:disabled:focus,
+.field select:disabled:focus {
+  box-shadow: none;
+  border-color: rgba(255, 255, 255, 0.05);
+}
+
+/* Optional subtle lock effect */
+.field input:disabled {
+  background-image: linear-gradient(
+    135deg,
+    rgba(255,255,255,0.02),
+    rgba(255,255,255,0.05)
+  );
+}
+
+/* Main container width control */
+.wrapper {
+  max-width: 1100px;
+  margin: 0 auto;   /* centers everything */
+  padding: 40px 20px;
+}
+
+/* Make cards full width inside container */
+.card {
+  width: 100%;
+}
+
+/* Fix danger card width */
+.dangerCard {
+  width: 100%;
+  margin-top: 30px;
+}
+.card {
+  width: 100%;
+  max-width: 1100px;   /* keeps layout clean */
+}
+.dangerCard {
+  margin-bottom: 60px;
+}
+
+.wrapper {
+  min-height: 100vh;
+  width: 100%;
+  padding: 60px 40px 120px;
+  background: linear-gradient(135deg, #0f172a, #1e1b4b);
+  color: white;
+}
+
+.inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  width: 100%;
+}
+

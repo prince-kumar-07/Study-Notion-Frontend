@@ -1,0 +1,154 @@
+.container {
+  position: relative;
+  height: 100vh;
+  background: #0f172a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  overflow: hidden;
+  color: white;
+}
+
+/* Background Glow */
+.bgGlow {
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(250,204,21,0.4), transparent 70%);
+  animation: pulse 6s infinite ease-in-out;
+  filter: blur(120px);
+}
+
+/* Content */
+.content {
+  position: relative;
+  z-index: 2;
+  animation: fadeUp 1s ease forwards;
+  padding: 20px;
+}
+
+/* GLITCH EFFECT */
+.glitchWrapper {
+  position: relative;
+}
+
+.glitch {
+  font-size: 120px;
+  font-weight: 900;
+  position: relative;
+  color: #facc15;
+  letter-spacing: 5px;
+  animation: glitch 1s infinite;
+}
+
+.glitch::before,
+.glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+}
+
+.glitch::before {
+  animation: glitchTop 1s infinite;
+  color: #38bdf8;
+}
+
+.glitch::after {
+  animation: glitchBottom 1s infinite;
+  color: #f87171;
+}
+
+/* Text */
+.title {
+  font-size: 32px;
+  margin: 10px 0 15px;
+}
+
+.description {
+  color: #94a3b8;
+  margin-bottom: 30px;
+}
+
+/* Buttons */
+.buttons {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.primaryBtn {
+  background: linear-gradient(90deg, #facc15, #f59e0b);
+  border: none;
+  padding: 12px 28px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.primaryBtn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px rgba(250,204,21,0.5);
+}
+
+.secondaryBtn {
+  background: transparent;
+  border: 1px solid #334155;
+  color: white;
+  padding: 12px 28px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.secondaryBtn:hover {
+  background: #1e293b;
+}
+
+/* Animations */
+@keyframes glitch {
+  0% { transform: translate(0); }
+  20% { transform: translate(-2px, 2px); }
+  40% { transform: translate(-2px, -2px); }
+  60% { transform: translate(2px, 2px); }
+  80% { transform: translate(2px, -2px); }
+  100% { transform: translate(0); }
+}
+
+@keyframes glitchTop {
+  0% { clip-path: inset(0 0 60% 0); transform: translate(-2px, -2px); }
+  50% { clip-path: inset(0 0 40% 0); transform: translate(2px, 2px); }
+  100% { clip-path: inset(0 0 60% 0); transform: translate(-2px, -2px); }
+}
+
+@keyframes glitchBottom {
+  0% { clip-path: inset(60% 0 0 0); transform: translate(2px, 2px); }
+  50% { clip-path: inset(40% 0 0 0); transform: translate(-2px, -2px); }
+  100% { clip-path: inset(60% 0 0 0); transform: translate(2px, 2px); }
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); opacity: 0.6; }
+  50% { transform: scale(1.2); opacity: 0.4; }
+  100% { transform: scale(1); opacity: 0.6; }
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .glitch {
+    font-size: 80px;
+  }
+
+  .title {
+    font-size: 24px;
+  }
+}

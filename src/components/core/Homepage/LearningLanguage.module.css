@@ -1,0 +1,120 @@
+.wrapper {
+  text-align: center;
+  padding: 120px 20px;
+  background: #ffffff;
+  min-height: 100vh;
+}
+
+/* Heading */
+.heading {
+  font-size: 44px;
+  font-weight: 700;
+  color: #111;
+  margin-bottom: 20px;
+}
+
+.heading span {
+  color: #22d3ee;
+}
+
+.subtext {
+  max-width: 700px;
+  margin: 0 auto 60px auto;
+  font-size: 16px;
+  color: #555;
+  line-height: 1.6;
+}
+
+/* Cards Container */
+.cardsContainer {
+  position: relative;
+  height: 380px;
+  max-width: 950px;
+  margin: 0 auto;
+}
+
+/* Base Card */
+.card {
+  position: absolute;
+  width: 280px;
+  border-radius: 18px;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.12);
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+
+  /* Subtle floating animation */
+  animation: float 6s ease-in-out infinite;
+}
+
+/* Individual positions */
+.cardLeft {
+  left: 0;
+  top: 60px;
+  transform: rotate(-8deg);
+  animation-delay: 0s;
+}
+
+.cardCenter {
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  animation-delay: 1s;
+}
+
+.cardRight {
+  right: 0;
+  top: 60px;
+  transform: rotate(8deg);
+  animation-delay: 2s;
+}
+
+/* Hover Premium Effect */
+.card:hover {
+  transform: scale(1.05) rotate(0deg);
+  box-shadow: 0 35px 70px rgba(0, 0, 0, 0.18);
+  z-index: 5;
+}
+
+/* Floating Animation (Subtle) */
+@keyframes float {
+  0% { transform: translateY(0px) rotate(var(--rotation, 0deg)); }
+  50% { transform: translateY(-8px) rotate(var(--rotation, 0deg)); }
+  100% { transform: translateY(0px) rotate(var(--rotation, 0deg)); }
+}
+
+/* CTA */
+.ctaButtonContainer {
+  margin-top: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 50px;
+}
+
+/* ------------------- */
+/* RESPONSIVE SECTION */
+/* ------------------- */
+
+@media (max-width: 1024px) {
+  .cardsContainer {
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+  }
+
+  .card {
+    position: relative;
+    width: 90%;
+    transform: rotate(0deg) !important;
+    animation: none; /* Disable floating on mobile for performance */
+  }
+
+  .heading {
+    font-size: 32px;
+  }
+
+  .subtext {
+    font-size: 14px;
+  }
+}

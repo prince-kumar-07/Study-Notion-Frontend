@@ -1,0 +1,197 @@
+/* ============================= */
+/* MAIN SECTION */
+/* ============================= */
+
+.timelineSection {
+  width: 100%;
+  padding: 120px 0;
+  background: transparent;
+}
+
+.timelineContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 100px;
+  padding: 0 20px;
+}
+
+/* ============================= */
+/* LEFT SIDE */
+/* ============================= */
+
+.timelineLeft {
+  flex: 1;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 70px;
+  padding-left: 50px;
+}
+
+/* Vertical Line */
+.timelineLine {
+  position: absolute;
+  left: 28px;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: linear-gradient(to bottom, #22d3ee, #6366f1);
+  border-radius: 4px;
+}
+
+/* Timeline Item */
+.timelineItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 25px;
+  position: relative;
+}
+
+/* Icon */
+.iconWrapper {
+  z-index: 2;
+}
+
+.icon {
+  width: 60px;
+  height: 60px;
+  padding: 14px;
+  border-radius: 50%;
+  background: white;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+}
+
+/* Card */
+.card {
+  background: white;
+  padding: 22px 28px;
+  border-radius: 16px;
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.08);
+  transition: 0.3s ease;
+}
+
+.card h3 {
+  margin: 0 0 8px;
+  font-size: 18px;
+  font-weight: 600;
+  color: #111;
+}
+
+.card p {
+  margin: 0;
+  font-size: 14px;
+  color: #555;
+  line-height: 1.5;
+}
+
+/* ============================= */
+/* RIGHT SIDE */
+/* ============================= */
+
+.timelineRight {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.imageWrapper {
+  position: relative;
+  width: 100%;
+  max-width: 520px;
+}
+
+.image {
+  width: 100%;
+  border-radius: 28px;
+  display: block;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.18);
+}
+
+/* ============================= */
+/* GREEN STATS BAR */
+/* ============================= */
+
+.statsBar {
+  position: absolute;
+  bottom: -40px;
+  left: 50%;
+  transform: translateX(-50%);
+
+  width: 85%;
+  max-width: 520px;
+
+  background: linear-gradient(135deg, #0f6a42, #137b4a);
+  color: white;
+
+  padding: 30px 40px;
+  border-radius: 24px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.25);
+}
+
+.stat {
+  text-align: center;
+  flex: 1;
+}
+
+.stat h2 {
+  font-size: 42px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.stat p {
+  margin-top: 6px;
+  font-size: 12px;
+  letter-spacing: 1.5px;
+}
+
+/* Divider */
+.divider {
+  width: 1px;
+  height: 50px;
+  background: rgba(255, 255, 255, 0.4);
+}
+
+/* ============================= */
+/* RESPONSIVE */
+/* ============================= */
+
+@media (max-width: 1024px) {
+
+  .timelineContainer {
+    flex-direction: column;
+    gap: 60px;
+  }
+
+  .timelineLeft {
+    padding-left: 0;
+    gap: 50px;
+  }
+
+  .timelineLine {
+    display: none;
+  }
+
+  .timelineItem {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .statsBar {
+    position: relative;
+    bottom: auto;
+    left: auto;
+    transform: none;
+    width: 100%;
+    margin-top: 25px;
+  }
+}

@@ -1,0 +1,438 @@
+/* ================= CONTAINER ================= */
+
+.container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: radial-gradient(circle at top left, #0f172a, #020617 70%);
+  padding: 20px;
+}
+
+/* ================= CARD ================= */
+
+.card {
+  width: 100%;
+  max-width: 480px;
+  padding: 50px 45px;
+
+  border-radius: 26px;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(22px);
+
+  border: 1px solid rgba(255, 255, 255, 0.08);
+
+  box-shadow:
+    0 30px 70px rgba(0, 0, 0, 0.6),
+    0 0 40px rgba(99, 102, 241, 0.15);
+
+  animation: fadeUp 0.6s ease forwards;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ================= TITLE ================= */
+
+.title {
+  text-align: center;
+  color: white;
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 30px;
+}
+
+/* ================= TOGGLE ================= */
+
+.toggle {
+  display: flex;
+  background: rgba(30, 41, 59, 0.6);
+  border-radius: 50px;
+  padding: 5px;
+  margin-bottom: 35px;
+}
+
+.toggleBtn {
+  flex: 1;
+  padding: 10px;
+  border-radius: 50px;
+  border: none;
+  background: transparent;
+  color: #94a3b8;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.toggleBtn:hover {
+  color: white;
+}
+
+.active {
+  background: linear-gradient(135deg, #6366f1, #22d3ee);
+  color: white;
+  font-weight: 600;
+  box-shadow: 0 0 15px rgba(34, 211, 238, 0.4);
+}
+
+/* ================= FORM ================= */
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.row {
+  display: flex;
+  gap: 14px;
+}
+
+/* ================= INPUT STYLE ================= */
+
+.iconInput {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 14px;
+  padding: 14px 14px 14px 42px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  transition: 0.3s ease;
+}
+
+.iconInput:hover {
+  border-color: #22d3ee;
+}
+
+.iconInput svg {
+  position: absolute;
+  left: 14px;
+  color: #94a3b8;
+}
+
+.iconInput input {
+  width: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: white;
+  font-size: 14px;
+}
+
+/* ================= PHONE ================= */
+
+.phoneRow {
+  display: flex;
+  gap: 8px;
+}
+
+.select {
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: white;
+  padding: 10px;
+  min-width: 90px;
+}
+
+/* ================= BUTTON ================= */
+
+.submitBtn {
+  margin-top: 10px;
+  padding: 15px;
+  border-radius: 16px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 15px;
+  color: white;
+
+  background: linear-gradient(135deg, #6366f1, #22d3ee);
+
+  transition: 0.3s ease;
+  box-shadow: 0 20px 40px rgba(99, 102, 241, 0.4);
+}
+
+.submitBtn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 25px 50px rgba(34, 211, 238, 0.5);
+}
+
+/* ================= MODAL ================= */
+
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(10px);
+
+  padding: 20px; /* prevents edge cut on small screens */
+
+  z-index: 9999;
+}
+
+
+.modal {
+  width: 100%;
+  max-width: 500px;
+  padding: 55px 50px;
+
+  border-radius: 30px;
+
+  background: linear-gradient(
+    135deg,
+    rgba(15, 23, 42, 0.98),
+    rgba(2, 6, 23, 0.98)
+  );
+
+  border: 1px solid rgba(255, 255, 255, 0.08);
+
+  box-shadow:
+    0 40px 100px rgba(0, 0, 0, 0.8),
+    0 0 60px rgba(34, 211, 238, 0.12);
+
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  animation: modalPop 0.35s ease forwards;
+}
+
+
+
+@keyframes scaleIn {
+  from { transform: scale(0.85); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.closeBtn {
+  position: absolute;
+  top: 18px;
+  right: 20px;
+  background: transparent;
+  border: none;
+  color: #94a3b8;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.closeBtn:hover {
+  color: white;
+}
+
+/* ================= OTP ================= */
+
+.modalTitle {
+  color: white;
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.modalSubtitle {
+  color: #94a3b8;
+  font-size: 14px;
+  margin-bottom: 25px;
+}
+
+.otpContainer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+  margin: 30px 0;
+}
+
+
+
+.otpBox {
+  width: 60px;
+  height: 65px;
+
+  border-radius: 18px;
+
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+
+  text-align: center;
+  font-size: 24px;
+  font-weight: 600;
+  color: white;
+
+  transition: all 0.25s ease;
+}
+
+.otpBox:focus {
+  outline: none;
+  border-color: #22d3ee;
+  box-shadow: 0 0 20px rgba(34, 211, 238, 0.6);
+  transform: translateY(-4px) scale(1.05);
+}
+
+
+.otpBox:focus {
+  outline: none;
+  border-color: #22d3ee;
+  box-shadow: 0 0 15px rgba(34, 211, 238, 0.5);
+  transform: translateY(-3px);
+}
+
+.verifyBtn {
+  margin-top: 10px;
+
+  padding: 14px 36px;
+  border-radius: 20px;
+  border: none;
+
+  font-weight: 600;
+  font-size: 15px;
+  cursor: pointer;
+
+  color: white;
+
+  background: linear-gradient(135deg, #6366f1, #22d3ee);
+
+  transition: 0.3s ease;
+
+  box-shadow: 0 20px 40px rgba(34, 211, 238, 0.4);
+}
+
+.verifyBtn:hover {
+  transform: translateY(-3px);
+}
+
+.verifyBtn:hover {
+  transform: translateY(-2px);
+}
+
+.resend {
+  margin-top: 18px;
+  color: #94a3b8;
+  font-size: 13px;
+}
+
+/* ================= SUCCESS ================= */
+
+.successCircle {
+  width: 90px;
+  height: 90px;
+
+  border-radius: 50%;
+
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-size: 38px;
+  color: white;
+
+  box-shadow:
+    0 0 25px rgba(34, 197, 94, 0.6),
+    0 0 60px rgba(34, 197, 94, 0.3);
+
+  animation: successPop 0.5s ease;
+}
+
+
+.otpSuccess {
+  font-size: 18px;
+  font-weight: 500;
+  color: white;
+  text-align: center;
+  letter-spacing: 0.3px;
+}
+
+
+/* ================= SHAKE ================= */
+
+.shake {
+  animation: shake 0.4s ease;
+}
+
+@keyframes shake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-6px); }
+  50% { transform: translateX(6px); }
+  75% { transform: translateX(-6px); }
+  100% { transform: translateX(0); }
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 500px) {
+  .card {
+    padding: 40px 25px;
+  }
+
+  .modal {
+    width: 90%;
+    padding: 35px 25px;
+  }
+
+  .row {
+    flex-direction: column;
+  }
+
+  .phoneRow {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 480px) {
+  .modal {
+    max-width: 95%;
+    padding: 35px 25px;
+  }
+
+  .otpBox {
+    width: 48px;
+    height: 55px;
+  }
+}
+
+@keyframes modalPop {
+  from {
+    opacity: 0;
+    transform: scale(0.85) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.success {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+
+  animation: successFade 0.4s ease forwards;
+}
+
+@keyframes successPop {
+  0% { transform: scale(0.6); opacity: 0; }
+  60% { transform: scale(1.15); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes successFade {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.optiontextcolor{
+  color: #020617;
+}
