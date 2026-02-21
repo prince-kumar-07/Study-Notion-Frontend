@@ -1,6 +1,6 @@
 import styles from "./InstructorSection.module.css";
 import block3Image from "../../../../assets/Images/Instructor.png";
-import CTAButton from "./Ctabutton";
+import CTAButton from "./CTAButton";
 
 export default function InstructorSection() {
   return (
