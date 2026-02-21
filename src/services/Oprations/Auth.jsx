@@ -4,7 +4,7 @@ import { apiConnector } from "../apiConnector";
 import toast from "react-hot-toast";
 import { setShowOTP, setSuccess, setSubmmited, setPasswordResetSuccess, setShowRevokeModal, showBlockedModal} from "../../Reducer/Slices/SignUpSlice";
 import { setToken } from "../../Reducer/Slices/AuthSlice";
-import { setUser } from "../../Reducer/Slices/Profileslice";
+import { setUser } from "../../Reducer/Slices/ProfileSlice";
 // import { useNavigate } from "react-router-dom";
 
 
