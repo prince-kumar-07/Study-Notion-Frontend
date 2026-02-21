@@ -1,4 +1,4 @@
-import CTAButton from "./ctabutton";
+import CTAButton from "./Ctabutton";
 import styles from "./LearningLanguage.module.css";
 import img1 from "../../../../assets/Images/Know_your_progress.png"
 import img2 from "../../../../assets/Images/Compare_with_others.png"
