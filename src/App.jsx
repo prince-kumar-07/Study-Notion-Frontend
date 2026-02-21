@@ -1,37 +1,34 @@
 import "./App.css";
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
-import { lazy, Suspense } from "react";
-import { useSelector } from "react-redux";
+import { lazy, Suspense, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { AnimatePresence } from "framer-motion";
 
 import Navbar from "./components/core/Common/Navbar";
 import Spinner from "./components/core/Others/Spinner";
 import PageTransition from "./components/core/Common/PageTransition";
 
-
 import PrivateRoute from "./services/Oprations/RouteProtection/PrivateRoute";
 import PublicRoute from "./services/Oprations/RouteProtection/PublicRoute";
 import RoleRoute from "./services/Oprations/RouteProtection/RoleBaseRoute";
 
-// 🔥 Lazy Loaded Pages
+import { showSpinner, hideSpinner } from "./Reducer/Slices/SpinnerSlice";
 
-// Public
+// Lazy imports
 const Home = lazy(() => import("./pages/Home"));
-const Login = lazy(() => import("./pages/Login"));
-const Signup = lazy(() => import("./pages/Signup"));
+const Login = lazy(() => import("./components/core/Auth/Login"));
+const Signup = lazy(() => import("./components/core/Auth/Signup"));
 const ContactUs = lazy(() => import("./components/core/Others/ContactUs"));
 const AboutUs = lazy(() => import("./components/core/Common/AboutUs"));
 const ChangePassword = lazy(() =>
-  import("./components/core/Others/ChangePassword")
+  import("./components/core/Auth/ChangePassword")
 );
 const NotFound = lazy(() =>
   import("./components/core/Others/NotFound")
 );
 
-// Dashboard Layout
-const Dashboard = lazy(() => import("./pages/Dashboard"));
+const Dashboard = lazy(() => import("./components/core/Dashboard/Dashboard"));
 
-// Dashboard Common
 const Profile = lazy(() =>
   import("./components/core/Dashboard/Porfile")
 );
@@ -39,60 +36,108 @@ const Settings = lazy(() =>
   import("./components/core/Dashboard/Setting")
 );
 
-// Student
 const MyCoursesStudent = lazy(() =>
-  import("./components/core/Dashboard/MyCoursesStudent")
+  import("./components/core/StudentOnly/MyCoursesStudent")
 );
 const InvoiceStudent = lazy(() =>
-  import("./components/core/Dashboard/InvoiceStudent")
+  import("./components/core/StudentOnly/InvoiceStudent")
 );
 const CartStudent = lazy(() =>
-  import("./components/core/Dashboard/CartStudent")
+  import("./components/core/StudentOnly/CartStudent")
 );
 
-// Admin
-const ManageUserAdmin = lazy(() =>
-  import("./components/core/Dashboard/ManageUserAdmin")
+const EntireCourse = lazy(() =>
+  import("./components/core/StudentOnly/EntireCourse")
 );
+
+const ManageUserAdmin = lazy(() =>
+  import("./components/core/AdminOnly/ManageUserAdmin")
+);
+
+const AdminConatactManager = lazy(() =>
+  import("./components/core/AdminOnly/AdminContactManager")
+);
+
 const PrivilegeEscalation = lazy(() =>
-  import("./components/core/Dashboard/PrivilegeEscalation")
+  import("./components/core/AdminOnly/PrivilegeEscalation")
 );
 const RevenueAndExpense = lazy(() =>
-  import("./components/core/Dashboard/RevenueAndExpense")
+  import("./components/core/AdminOnly/RevenueAndExpense")
 );
 
-// Instructor
 const StudentsProgress = lazy(() =>
-  import("./components/core/Dashboard/StudentsProgress")
+  import("./components/core/StudentOnly/StudentsProgress")
 );
 const CourseProgressInstructorOnly = lazy(() =>
-  import("./components/core/Dashboard/CourseProgressInstructorOnly")
+  import("./components/core/InstructorOnly/CourseProgressInstructorOnly")
 );
 const MyCourseInstructorOnly = lazy(() =>
-  import("./components/core/Dashboard/MyCourseInstructorOnly")
+  import("./components/core/InstructorOnly/MyCourseInstructorOnly")
 );
 const AddCourseInstructorOnly = lazy(() =>
-  import("./components/core/Dashboard/AddCourseInstructorOnly")
+  import("./components/core/InstructorOnly/AddCourseInstructorOnly")
+);
+
+const AddSection = lazy(() =>
+  import("./components/core/InstructorOnly/AddSection")
+);
+
+const AddSubSection = lazy(() =>
+  import("./components/core/InstructorOnly/AddSubSection")
 );
 
 function App() {
+
+  const dispatch = useDispatch();
   const { isLoading } = useSelector((state) => state.spinner);
   const location = useLocation();
 
+
+  useEffect(() => {
+
+    dispatch(showSpinner());
+
+    const handleLoad = () => {
+      dispatch(hideSpinner());
+    };
+
+    if (document.readyState === "complete") {
+      handleLoad();
+    } else {
+      window.addEventListener("load", handleLoad);
+    }
+
+    return () => {
+      window.removeEventListener("load", handleLoad);
+    };
+
+  }, [dispatch]);
+
   return (
     <div>
+
       <Navbar />
 
       <Suspense fallback={<Spinner />}>
+
         <AnimatePresence mode="wait">
+
           <Routes location={location} key={location.pathname}>
 
-            {/* 🌍 Public Routes */}
             <Route
               path="/"
               element={
                 <PageTransition>
                   <Home />
+                </PageTransition>
+              }
+            />
+
+            <Route
+              path="/learn-more"
+              element={
+                <PageTransition>
+                  <EntireCourse />
                 </PageTransition>
               }
             />
@@ -146,7 +191,17 @@ function App() {
               }
             />
 
-            {/* 🔐 Protected Dashboard */}
+            <Route
+              path="mycart"
+              element={
+                <RoleRoute allowedRole="Student">
+                  <PageTransition>
+                    <CartStudent />
+                  </PageTransition>
+                </RoleRoute>
+              }
+            />
+
             <Route
               path="/dashboard"
               element={
@@ -155,7 +210,7 @@ function App() {
                 </PrivateRoute>
               }
             >
-              {/* Default Redirect */}
+
               <Route index element={<Navigate to="profile" replace />} />
 
               <Route
@@ -176,7 +231,6 @@ function App() {
                 }
               />
 
-              {/* 🎓 Student */}
               <Route
                 path="invoices"
                 element={
@@ -200,6 +254,17 @@ function App() {
               />
 
               <Route
+                path="allcourses"
+                element={
+                  <RoleRoute allowedRole="Student">
+                    <PageTransition>
+                      <EntireCourse />
+                    </PageTransition>
+                  </RoleRoute>
+                }
+              />
+
+              <Route
                 path="cart"
                 element={
                   <RoleRoute allowedRole="Student">
@@ -210,7 +275,6 @@ function App() {
                 }
               />
 
-              {/* 👨‍💼 Admin */}
               <Route
                 path="manage-users"
                 element={
@@ -233,6 +297,17 @@ function App() {
                 }
               />
 
+               <Route
+                path="admin-contact-manager"
+                element={
+                  <RoleRoute allowedRole="Admin">
+                    <PageTransition>
+                      <AdminConatactManager />
+                    </PageTransition>
+                  </RoleRoute>
+                }
+              />
+
               <Route
                 path="revenue-and-expense"
                 element={
@@ -244,13 +319,34 @@ function App() {
                 }
               />
 
-              {/* 👨‍🏫 Instructor */}
               <Route
                 path="student-performance"
                 element={
                   <RoleRoute allowedRole="Instructor">
                     <PageTransition>
                       <StudentsProgress />
+                    </PageTransition>
+                  </RoleRoute>
+                }
+              />
+
+              <Route
+                path="add-Section"
+                element={
+                  <RoleRoute allowedRole="Instructor">
+                    <PageTransition>
+                      <AddSection />
+                    </PageTransition>
+                  </RoleRoute>
+                }
+              />
+
+              <Route
+                path="add-subSection"
+                element={
+                  <RoleRoute allowedRole="Instructor">
+                    <PageTransition>
+                      <AddSubSection />
                     </PageTransition>
                   </RoleRoute>
                 }
@@ -288,9 +384,9 @@ function App() {
                   </RoleRoute>
                 }
               />
+
             </Route>
 
-            {/* ❌ 404 */}
             <Route
               path="*"
               element={
@@ -301,10 +397,14 @@ function App() {
             />
 
           </Routes>
+
         </AnimatePresence>
+
       </Suspense>
 
+      {/* Global Redux Spinner */}
       {isLoading && <Spinner />}
+
     </div>
   );
 }

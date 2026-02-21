@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { jsPDF } from "jspdf";
 import styles from "./InvoiceStudent.module.css";
 import usePageTitle from "../../../services/Oprations/Title/Title";
+import { formatINR } from "../../../services/Oprations/formatCurrency";
 
 const tempInvoices = [
   {
@@ -51,7 +52,7 @@ function InvoiceStudent() {
           animate={{ opacity: 1, y: 0 }}
         >
           <p>Total Saved</p>
-          <h2>₹{totalSaved}</h2>
+          <h2>₹{formatINR(totalSaved)}</h2>
           <span>Through course bundles & offers</span>
         </motion.div>
 
@@ -97,7 +98,7 @@ function InvoiceStudent() {
 
               <div className={styles.right}>
                 <span className={styles.amount}>
-                  ₹{invoice.amount}
+                  ₹{formatINR(invoice.amount)}
                 </span>
 
                 <button

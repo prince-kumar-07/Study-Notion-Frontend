@@ -4,21 +4,25 @@ import { useSelector } from "react-redux";
 import {
   VscAccount,
   VscBook,
-  VscAdd,
   VscSettingsGear,
   VscSignOut,
   VscClose,
   VscGraph 
 } from "react-icons/vsc";
+import { BiSupport } from "react-icons/bi";
+import { MdManageAccounts } from "react-icons/md";
 import { FiShoppingCart } from "react-icons/fi"
 import { VscShield } from "react-icons/vsc";
 import styles from "./Sidebar.module.css";
 import { useDispatch } from "react-redux";
 import {logout}  from "../../../services/Oprations/Auth";
+import { FaFileInvoiceDollar } from "react-icons/fa6";
+import { ImBooks } from "react-icons/im";
+import { LuNotebookPen } from "react-icons/lu";
 
 
 function Sidebar({ isOpen, setIsOpen }) {
-  const { token } = useSelector((state) => state.auth);
+  // const { token } = useSelector((state) => state.auth);
   const dispatch = useDispatch()
    
   const navigate = useNavigate();
@@ -41,13 +45,16 @@ function Sidebar({ isOpen, setIsOpen }) {
   // Role based links
   const sidebarConfig = {
     Student: [
-      { name: "My Courses", path: "/dashboard//mycourses", icon: <VscBook /> },
-      { name: "Invoices", path: "/dashboard/invoices", icon: <VscBook /> },
+      { name: "My Courses", path: "/dashboard/mycourses", icon: <LuNotebookPen /> },
+       { name: "All Courses", path: "/dashboard/allcourses", icon: <ImBooks  /> },
+      { name: "Invoices", path: "/dashboard/invoices", icon: <FaFileInvoiceDollar/> },
       { name: "Cart", path: "/dashboard/cart", icon: <FiShoppingCart /> },
     ],
     Instructor: [
       { name: "My Courses", path: "/dashboard/my-courses", icon: <VscBook /> },
-      { name: "Add Course", path: "/dashboard/add-course", icon: <VscAdd /> },
+      { name: "Manage Course", path: "/dashboard/add-course", icon: <MdManageAccounts /> },
+      { name: "Manage Section", path: "/dashboard/add-section", icon: <MdManageAccounts /> },
+      { name: "Manage Sub Section", path: "/dashboard/add-subSection", icon: <MdManageAccounts /> },
       {
         name: "Student Performance",
         path: "/dashboard/student-performance",
@@ -75,6 +82,11 @@ function Sidebar({ isOpen, setIsOpen }) {
         name: "Financial Overview",
         path: "/dashboard/revenue-and-expense",
         icon: <VscGraph />,
+      },
+       {
+        name: "Support",
+        path: "/dashboard/admin-contact-manager",
+        icon: <BiSupport />,
       },
     ],
   };

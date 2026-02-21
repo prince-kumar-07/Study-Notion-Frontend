@@ -1,12 +1,35 @@
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./AddCourseInstructorOnly.module.css";
 import { motion, AnimatePresence } from "framer-motion";
 import { VscCloudUpload } from "react-icons/vsc";
-import { apiConnector } from "../../../services/apiConnector";
-import { useSelector } from "react-redux";
+import  {addNewCourse} from "../../../services/Oprations/Course";
+import { useDispatch } from "react-redux";
+// import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+
+import { VscShield } from "react-icons/vsc";
+
+
+
+
+// const allCourses = useSelector((state) => state.course.allCourse);
+
+
+
+
 
 const AddCourseInstructorOnly = () => {
-  const { token } = useSelector((state) => state.auth);
+  // const { token } = useSelector((state) => state.auth);
+  const dispatch = useDispatch()
+  const navigate = useNavigate();
+  const [categoryData, setCategoryData] = useState([])
+  
+
+  useEffect(() => {
+  setCategoryData(JSON.parse(localStorage.getItem("category")) || [])
+  //  console.log(JSON.parse(localStorage.getItem("category")) || [])
+}, []);
+
 
   const [step, setStep] = useState(1);
 
@@ -34,35 +57,34 @@ const AddCourseInstructorOnly = () => {
     }
   };
 
-  const handleSubmit = async () => {
-    try {
-      const data = new FormData();
-      Object.keys(formData).forEach((key) => {
-        data.append(key, formData[key]);
-      });
+  function handleSubmit() {
+    const data = new FormData();
 
-      data.append("thumbnailImage", thumbnail);
+    data.append("courseName", formData.courseName);
+    data.append("courseDescription", formData.courseDescription);
+    data.append("whatYouWillLearn", formData.whatYouWillLearn);
+    data.append("price", formData.price);
+    data.append("tag", formData.tag);
+    data.append("category", formData.category);
 
-      await apiConnector(
-        "POST",
-        "/api/v1/course/createCourse",
-        data,
-        {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "multipart/form-data",
-        }
-      );
+    data.append("thumbnailImage", thumbnail);
 
-      alert("Course Created Successfully 🚀");
-    } catch (err) {
-      console.error(err);
-      alert("Error creating course");
-    }
-  };
+
+    addNewCourse(dispatch, data, navigate);
+  }
+
 
   return (
     <div className={styles.wrapper}>
-      <h1 className={styles.title}>Create New Course</h1>
+     <div className={styles.header}>
+  <h1 className={styles.title}>Create New Course</h1>
+
+  <span className={styles.badge}>
+    <VscShield />
+    Instructor Only
+  </span>
+</div>
+
 
       {/* Stepper */}
       <div className={styles.stepper}>
@@ -146,14 +168,20 @@ const AddCourseInstructorOnly = () => {
                     className={styles.input}
                   />
 
-                  <input
-                    type="text"
+                  <select
                     name="category"
-                    placeholder="Category"
                     value={formData.category}
                     onChange={handleChange}
                     className={styles.input}
-                  />
+                  >
+                    <option value="">Select Category</option>
+
+                    {categoryData.map((cat) => (
+                      <option key={cat._id} value={cat._id}>
+                        {cat.name}
+                      </option>
+                    ))}
+                  </select>
 
                   <div className={styles.buttonRow}>
                     <button
@@ -225,11 +253,18 @@ const AddCourseInstructorOnly = () => {
           </AnimatePresence>
         </div>
 
-        {/* RIGHT PREVIEW PANEL */}
         <div className={styles.previewPanel}>
           <div className={styles.previewCard}>
             <div className={styles.previewTop}>
-              Thumbnail Preview
+              {preview ? (
+                <img
+                  src={preview}
+                  alt="thumbnail"
+                  className={styles.previewImage}
+                />
+              ) : (
+                <p>Thumbnail Preview</p>
+              )}
             </div>
 
             <div className={styles.previewBody}>

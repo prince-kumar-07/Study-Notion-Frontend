@@ -1,4 +1,3 @@
-/* Full page wrapper */
 .home {
   min-height: 100vh;
   background: radial-gradient(circle at top left, #0f172a, #020617 60%);
@@ -7,7 +6,6 @@
   padding-bottom: 100px;
 }
 
-/* Hero Section */
 .section-block-1, .section-block-2 {
   display: flex;
   flex-direction: column;
@@ -23,7 +21,6 @@
   background: white;
 }
 
-/* Top CTA Button */
 .get-started-btn {
   background: linear-gradient(135deg, #6366f1, #3ef1ee);
   border: none;
@@ -45,7 +42,7 @@
   box-shadow: 0 15px 35px rgba(218, 214, 226, 0.6);
 }
 
-/* Headline */
+
 .tagline {
   font-size: 48px;
   font-weight: 700;
@@ -60,7 +57,7 @@
   -webkit-text-fill-color: transparent;
 }
 
-/* Paragraph */
+
 .home-paragraph {
   max-width: 750px;
   font-size: 18px;
@@ -69,7 +66,7 @@
   margin-bottom: 40px;
 }
 
-/* Buttons Container */
+
 .learn-and-bookdemo-div {
   display: flex;
   gap: 20px;
@@ -77,11 +74,6 @@
   justify-content: center;
 }
 
-
-/* .btn-link{
-    color: white;
-    
-} */
 
 .home-video-container {
   margin-top: 60px;
@@ -92,7 +84,7 @@
   position: relative;
 }
 
-/* Glow background effect */
+
 .home-video-container::before {
   content: "";
   position: absolute;
@@ -103,7 +95,6 @@
   z-index: 0;
 }
 
-/* Video Styling */
 .home-video {
   width: 70%;
   max-width: 1000px;
@@ -116,7 +107,7 @@
   transition: transform 0.4s ease;
 }
 
-/* Slight hover lift */
+
 .home-video:hover {
   transform: scale(1.02);
 }

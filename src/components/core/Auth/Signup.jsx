@@ -1,54 +1,39 @@
-import React, { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import styles from "./Signup.module.css";
-import countryCodes from "../../data/countrycode.json";
-import {
-  FaEnvelope,
-  FaLock,
-  FaPhone,
-  FaUser,
-} from "react-icons/fa";
+import countryCodes from "../../../../data/countrycode.json";
+import { FaEnvelope, FaLock, FaPhone, FaUser } from "react-icons/fa";
 import { IoClose } from "react-icons/io5";
 import { useDispatch } from "react-redux";
-import { setShowOTP, setCloseOTP } from "../Reducer/Slices/SignUpSlice";
-import { sendOTP, signUP } from "../services/Oprations/Auth";
+import { setCloseOTP } from "../../../Reducer/Slices/SignUpSlice";
+import { sendOTP, signUP } from "../../../services/Oprations/Auth";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import usePageTitle from "../services/Oprations/Title/Title";
+import usePageTitle from "../../../services/Oprations/Title/Title";
 
 const Signup = () => {
-
-   const dispatch = useDispatch();
-   const naviagte = useNavigate()
-   usePageTitle("SignUP")
-
+  const dispatch = useDispatch();
+  const naviagte = useNavigate();
+  usePageTitle("SignUP");
 
   const [accountType, setAccountType] = useState("Student");
-   const { showOtp, success } = useSelector(
-    (state) => state.signup
-  );
-  
+  const { showOtp, success } = useSelector((state) => state.signup || {});
+
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
   const [error, setError] = useState(false);
- 
 
-  // ✅ NEW: Form Data State
   const [formData, setFormData] = useState({
     accountType: "Student",
     firstName: "",
     lastName: "",
     email: "",
-    countryCode: "",
+    countryCode: "+91",
     contactNumber: "",
     password: "",
     confirmPassword: "",
-    contactNumber:""
   });
 
-  useEffect(() => {
-  // console.log("FORM DATA CHANGED:", formData);
-}, [formData]);
-
-  
+  // useEffect(() => {
+  // }, [formData]);
 
   const inputRefs = useRef([]);
 
@@ -64,7 +49,7 @@ const Signup = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    sendOTP(formData.email, dispatch)
+    sendOTP(formData.email, dispatch);
   };
 
   /* OTP TIMER */
@@ -89,7 +74,7 @@ const Signup = () => {
       const values = value.split("");
       setOtp(values);
       // setOtpValues(value)
-      
+
       return;
     }
 
@@ -118,18 +103,12 @@ const Signup = () => {
       // setTimeout(() => setError(false), 400);
       return;
     }
-   
-    signUP(
-      dispatch,
-     formData,
-     otpArray.join(""),
-     naviagte("/login")
-    )
-    
+
+    signUP(dispatch, formData, otpArray.join(""), naviagte);
   };
 
   const closeModal = () => {
-    dispatch(setCloseOTP())
+    dispatch(setCloseOTP());
     // setShowOtp(false);
     // setSuccess(false);
     setOtp(["", "", "", "", "", ""]);
@@ -139,9 +118,7 @@ const Signup = () => {
   return (
     <div className={styles.container}>
       <div className={styles.card}>
-        <h2 className={styles.title}>
-          Create your StudyNotion account
-        </h2>
+        <h2 className={styles.title}>Create your StudyNotion account</h2>
 
         {/* Toggle */}
         <div className={styles.toggle}>
@@ -212,7 +189,11 @@ const Signup = () => {
               className={styles.select}
             >
               {countryCodes.map((item, index) => (
-                <option className={styles.optiontextcolor} key={index} value={item.code}>
+                <option
+                  className={styles.optiontextcolor}
+                  key={index}
+                  value={item.code}
+                >
                   {item.country} {item.code}
                 </option>
               ))}
@@ -255,29 +236,21 @@ const Signup = () => {
             />
           </div>
 
-          <button className={styles.submitBtn}>
-            Create Account
-          </button>
+          <button className={styles.submitBtn}>Create Account</button>
         </form>
       </div>
 
       {/* OTP MODAL */}
       {showOtp && (
         <div className={styles.modalOverlay}>
-          <div
-            className={`${styles.modal} ${
-              error ? styles.shake : ""
-            }`}
-          >
+          <div className={`${styles.modal} ${error ? styles.shake : ""}`}>
             <button className={styles.closeBtn} onClick={closeModal}>
               <IoClose />
             </button>
 
             {!success ? (
               <>
-                <h3 className={styles.modalTitle}>
-                  Enter Verification Code
-                </h3>
+                <h3 className={styles.modalTitle}>Enter Verification Code</h3>
                 <p className={styles.modalSubtitle}>
                   We sent a 6-digit code to your phone
                 </p>
@@ -288,15 +261,9 @@ const Signup = () => {
                       key={index}
                       maxLength="1"
                       value={digit}
-                      ref={(el) =>
-                        (inputRefs.current[index] = el)
-                      }
-                      onChange={(e) =>
-                        handleOtpChange(e.target.value, index)
-                      }
-                      onKeyDown={(e) =>
-                        handleKeyDown(e, index)
-                      }
+                      ref={(el) => (inputRefs.current[index] = el)}
+                      onChange={(e) => handleOtpChange(e.target.value, index)}
+                      onKeyDown={(e) => handleKeyDown(e, index)}
                       className={styles.otpBox}
                     />
                   ))}

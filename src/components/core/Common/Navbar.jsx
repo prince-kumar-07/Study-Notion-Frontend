@@ -15,6 +15,8 @@ import { useDispatch } from "react-redux";
 
 
 const Navbar = () => {
+   const { totalItem } = useSelector((state) => state.cart);
+  
   const [mobileOpen, setMobileOpen] = useState(false);
   const [dropdown, setDropdown] = useState(false);
   // const [searchOpen, setSearchOpen] = useState(false);
@@ -27,7 +29,7 @@ const Navbar = () => {
 
   const { token } = useSelector((state) => state.auth);
   const { user } = useSelector((state) => state.profile);
-  const totalItem = useSelector((state) => state.cart?.totalItem || 0);
+  // const totalItem = useSelector((state) => state.cart?.totalItem || 0);
 
   // ================= FETCH CATEGORIES =================
   async function fetchSublinks() {
@@ -42,6 +44,7 @@ const Navbar = () => {
         result?.data?.allCategories?.map((item) => item.name) || [];
 
       setSubLinks(namesArray);
+      localStorage.setItem("category", JSON.stringify(result?.data?.allCategories));
     } catch (error) {
       toast.error("Error fetching categories");
     }

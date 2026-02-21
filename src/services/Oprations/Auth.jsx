@@ -2,7 +2,7 @@ import { authEndPoints, settingsEndpoints } from "../api";
 import { showSpinner, hideSpinner } from "../../Reducer/Slices/SpinnerSlice";
 import { apiConnector } from "../apiConnector";
 import toast from "react-hot-toast";
-import { setShowOTP, setSuccess, setSubmmited, setPasswordResetSuccess} from "../../Reducer/Slices/SignUpSlice";
+import { setShowOTP, setSuccess, setSubmmited, setPasswordResetSuccess, setShowRevokeModal, showBlockedModal} from "../../Reducer/Slices/SignUpSlice";
 import { setToken } from "../../Reducer/Slices/AuthSlice";
 import { setUser } from "../../Reducer/Slices/Profileslice";
 // import { useNavigate } from "react-router-dom";
@@ -99,30 +99,44 @@ export async function forgotPassword(dispatch, email) {
 
 
 
-export async function login(dispatch, formData, navigate) {
-  dispatch(showSpinner("Validating credentials..."));
+export async function login(dispatch, formData, navigate, revokeDeletion = false) {
 
-  
+  dispatch(showSpinner("Validating credentials..."));
+  const requestData = {
+    ...formData,
+    revokeDeletion,
+  };
 
   try {
-    const response = await apiConnector("POST", LOGIN_API, {
-      ...formData,  
-    });
+    const response = await apiConnector("POST", LOGIN_API, 
+      requestData,  
+    );
 
-
-
+    if(response.data?.data?.deleteRequested){
+      dispatch(hideSpinner())
+      dispatch(setShowRevokeModal(response.data?.data?.deleteScheduledAt))
+      return
+    }
+   
     dispatch(setToken(response.data?.token))
     dispatch(setUser({ ...response.data.user}))
     localStorage.setItem("token", JSON.stringify(response.data.token))
     localStorage.setItem("user", JSON.stringify(response.data.user))
     
     toast.success("Logged in successfully.");
-    navigate("/");
-
+    navigate(-1);
 
   } catch (error) {
-     const message =
-    error.response?.data?.message || "Something went wrong";
+
+  if (error.response.status == "403") {
+    dispatch(hideSpinner());
+    dispatch(
+      showBlockedModal(error.response?.data?.message || "Something went wrong"),
+    );
+    console.log("blocked mOdal")
+    return;
+  }
+    const message = error.response?.data?.message || "Something went wrong";
     toast.error(message);
     console.log(error);
   }
@@ -169,27 +183,24 @@ export function logout(dispatch) {
 
 
 export async function deleteAccount(dispatch) {
-  dispatch(showSpinner("Deleting... Acount"));
 
-  console.log("delting account")
-  const email = JSON.parse(localStorage.getItem("user")).email
-  
-  if(!email)
-    return
+  dispatch(showSpinner("Your account deletion is being scheduled..."));
+
+  const email = JSON.parse(localStorage.getItem("user")).email;
+
+  if (!email) return;
 
   try {
     const response = await apiConnector("DELETE", DELETE_PROFILE_API, {
-      email:email,  
+      email: email,
     });
-
+    
+    const deleteDate = new Date(response.data.deleteDate).toLocaleString();
+    toast.success("Your profile will be deleted on " + deleteDate);
     logout(dispatch)
 
-    toast.success("Deletion successfull");
-    // navigate("/")
-
   } catch (error) {
-     const message =
-    error.response?.data?.message || "Something went wrong";
+    const message = error.response?.data?.message || "Something went wrong";
     toast.error(message);
     console.log(error);
   }

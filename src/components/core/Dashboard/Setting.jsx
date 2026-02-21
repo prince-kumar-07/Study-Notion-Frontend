@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styles from "./Setting.module.css";
 import {
@@ -15,16 +15,31 @@ import { FiAlertTriangle, FiLock } from "react-icons/fi";
 import { motion } from "framer-motion";
 
 function Settings() {
+
+  const formatDateTime = (date) => {
+  if (!date) return "";
+
+  return new Date(date).toLocaleString("en-IN", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    hour12: true,
+  });
+};
+
+
   const user = useSelector((state) => state.profile.user);
   usePageTitle(user?.firstName + " Setting");
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [selectedFile, setSelectedFile] = useState(null);
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
-const [deleteInput, setDeleteInput] = useState("");
-const [shake, setShake] = useState(false);
-
+ const [showDeleteModal, setShowDeleteModal] = useState(false);
+ const [deleteInput, setDeleteInput] = useState("");
+ const [shake, setShake] = useState(false);
 
   const [formData, setFormData] = useState({
     contactNumber: user?.contactNumber || "",
@@ -60,6 +75,13 @@ const [shake, setShake] = useState(false);
   }
 
   function handleAccounDelete() {
+    if (deleteInput !== "DELETE") {
+      setShake(true);
+      setTimeout(() => setShake(false), 400);
+      return;
+    }
+
+    setShowDeleteModal(false)
     deleteAccount(dispatch);
     navigate("/");
   }
@@ -92,6 +114,14 @@ const [shake, setShake] = useState(false);
 
     UpdateProfileInfo(dispatch, additionalData);
   }
+
+ function calculateDeletionDate() {
+  const now = new Date();
+  const deletionDate = new Date(now);
+  deletionDate.setDate(now.getDate() + 15);
+  return deletionDate;
+}
+
 
   return (
     <div className={styles.wrapper}>
@@ -201,14 +231,30 @@ const [shake, setShake] = useState(false);
                 >
                   <option value="">Month</option>
                   {[
-                    "January","February","March","April","May","June",
-                    "July","August","September","October","November","December",
+                    "January",
+                    "February",
+                    "March",
+                    "April",
+                    "May",
+                    "June",
+                    "July",
+                    "August",
+                    "September",
+                    "October",
+                    "November",
+                    "December",
                   ].map((m) => (
-                    <option key={m} value={m}>{m}</option>
+                    <option key={m} value={m}>
+                      {m}
+                    </option>
                   ))}
                 </select>
 
-                <select name="year" value={formData.year} onChange={handleChange}>
+                <select
+                  name="year"
+                  value={formData.year}
+                  onChange={handleChange}
+                >
                   <option value="">Year</option>
                   {[...Array(60)].map((_, i) => (
                     <option key={i} value={2024 - i}>
@@ -287,18 +333,174 @@ const [shake, setShake] = useState(false);
         </motion.div>
 
         {/* Delete Section */}
-        <motion.div className={`${styles.card} ${styles.dangerCard}`}>
+       
+      </div>
+      {showDeleteModal && (
+        <div className={styles.modalOverlay}>
+          <motion.div
+            className={`${styles.modal} ${shake ? styles.shake : ""}`}
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+          >
+            <h3 className={styles.modalTitle}>Delete Account Permanently</h3>
+
+            <p className={styles.modalText}>
+              This action cannot be undone.
+              <br />
+              <br />
+             {`This account will be permanently deleted on ${calculateDeletionDate()}`}
+
+              <br />
+              • All your data
+              <br />
+              • All your courses
+              <br />
+              • All associated information
+              <br />
+              <br />
+              This cannot be restored.
+            </p>
+
+            <p className={styles.confirmText}>
+              Type <b>DELETE</b> to confirm
+            </p>
+
+            <input
+              type="text"
+              value={deleteInput}
+              onChange={(e) => setDeleteInput(e.target.value)}
+              className={styles.deleteInput}
+              placeholder="Type DELETE"
+            />
+
+            <div className={styles.modalButtons}>
+              <button
+                className={styles.cancelBtn}
+                onClick={() => {
+                  setShowDeleteModal(false);
+                  setDeleteInput("");
+                }}
+              >
+                Cancel
+              </button>
+
+              <button
+                className={styles.confirmDeleteBtn}
+                onClick={() => {
+                  handleAccounDelete();
+                }}
+              >
+                Delete Permanently
+              </button>
+            </div>
+          </motion.div>
+        </div>
+      )}
+
+      <div>
+       {
+        user?.additionalDetails?.loginHistory[1] && 
+
+         <motion.form
+        className={styles.card}
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+      >
+        <div className={styles.loginHistory}>
+          <h2>Recent Login Activity</h2>
+          <span>Details of your last account access</span>
+        </div>
+
+        <div className={styles.grid}>
+          <div className={styles.field}>
+            <label>IP Address</label>
+            <input
+              value={user?.additionalDetails?.loginHistory[1].ipAddress || "No records available"}
+              disabled
+            />
+          </div>
+
+          <div className={styles.field}>
+            <label>Browser Name</label>
+            <input
+              value={user?.additionalDetails?.loginHistory[1].browserName || "No records available"}
+              disabled
+            />
+          </div>
+
+          <div className={styles.field}>
+            <label>Browser Version</label>
+            <input
+              value={user?.additionalDetails?.loginHistory[1].browserVersion || "No records available"}
+              disabled
+            />
+          </div>
+
+          <div className={styles.field}>
+            <label>OS Name</label>
+            <input
+              value={user?.additionalDetails?.loginHistory[1].osName || "No records available"}
+              disabled
+            />
+          </div>
+
+          <div className={styles.field}>
+            <label>OS Version</label>
+            <input
+              value={user?.additionalDetails?.loginHistory[1].osVersion || "No records available"}
+              disabled
+            />
+          </div>
+
+           <div className={styles.field}>
+            <label>Device Type</label>
+            <input
+              value={user?.additionalDetails?.loginHistory[1].deviceType || "No records available"}
+              disabled
+            />
+          </div>
+
+          <div className={styles.field}>
+            <label>Last Accessed At</label>
+            <input
+              value={formatDateTime(user?.additionalDetails?.loginHistory[1].loginAt) || "No records available"}
+              disabled
+            />
+          </div>
+ 
+                <div className={`${styles.field} ${styles.fullWidth}`}>
+              <label>Access Location</label>
+              <textarea
+                rows="4"
+                name="about"
+                value={user?.additionalDetails?.loginHistory[1]?.location?.fullAddress || "No records available"}
+                onChange={handleChange}
+                disabled
+              />
+            </div>
+
+
+        </div>
+      </motion.form>
+
+       }
+     
+      </div>
+
+       <motion.div className={`${styles.card} ${styles.dangerCard}`}>
           <h2 className={styles.dangerTitle}>
             <FiAlertTriangle /> Delete Account
           </h2>
 
           <p>This action is permanent and cannot be undone.</p>
 
-          <button onClick={handleAccounDelete} className={styles.dangerBtn}>
+          <button
+            onClick={() => setShowDeleteModal(true)}
+            className={styles.dangerBtn}
+          >
             Delete Account
           </button>
         </motion.div>
-      </div>
     </div>
   );
 }

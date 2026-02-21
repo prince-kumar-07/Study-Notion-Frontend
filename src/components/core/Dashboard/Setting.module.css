@@ -344,3 +344,106 @@
   width: 100%;
 }
 
+.modalOverlay{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.6);
+display:flex;
+justify-content:center;
+align-items:center;
+z-index:999;
+backdrop-filter:blur(6px);
+}
+
+.modal{
+background:#020617;
+border:1px solid rgba(255,0,0,0.3);
+padding:28px;
+border-radius:16px;
+width:420px;
+max-width:90%;
+}
+
+.modalTitle{
+color:#ef4444;
+margin-bottom:12px;
+}
+
+.modalText{
+opacity:.8;
+font-size:14px;
+line-height:1.6;
+}
+
+.confirmText{
+margin-top:16px;
+font-size:14px;
+}
+
+.deleteInput{
+width:100%;
+margin-top:8px;
+padding:10px;
+border-radius:8px;
+border:1px solid rgba(255,255,255,.2);
+background:transparent;
+color:white;
+}
+
+.modalButtons{
+display:flex;
+justify-content:flex-end;
+gap:10px;
+margin-top:18px;
+}
+
+.cancelBtn{
+padding:8px 14px;
+border-radius:8px;
+background:transparent;
+border:1px solid rgba(255,255,255,.3);
+color:white;
+cursor:pointer;
+}
+
+.confirmDeleteBtn{
+padding:8px 14px;
+border-radius:8px;
+background:#ef4444;
+border:none;
+color:white;
+cursor:pointer;
+}
+
+.confirmDeleteBtn:hover{
+background:#dc2626;
+}
+
+/* SHAKE ANIMATION */
+
+.shake{
+animation:shake 0.3s;
+}
+
+@keyframes shake{
+0%{transform:translateX(0)}
+25%{transform:translateX(-5px)}
+50%{transform:translateX(5px)}
+75%{transform:translateX(-5px)}
+100%{transform:translateX(0)}
+}
+
+.loginHistory{
+  margin-bottom: 20px;
+}
+
+.loginHistory h2{
+  margin-bottom: 10px;
+} 
+
+/* .adddress{
+  width: 100%;
+} */

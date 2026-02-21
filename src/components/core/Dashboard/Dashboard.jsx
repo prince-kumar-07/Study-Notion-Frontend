@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { Outlet, useLocation } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
-import Sidebar from "../components/core/Dashboard/Sidebar";
+import Sidebar from "../Dashboard/Sidebar";
 import styles from "./Dashboard.module.css";
-import PageTransition from "../components/core/Common/PageTransition";
+import PageTransition from "../Common/PageTransition";
 
 function Dashboard() {
   const [isOpen, setIsOpen] = useState(false);

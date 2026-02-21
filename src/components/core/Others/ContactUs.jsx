@@ -1,11 +1,46 @@
-import React from "react";
+import { useState } from "react";
 import styles from "./ContactUs.module.css";
 import { motion } from "framer-motion";
+import {createContact} from "../../../services/Oprations/Contact"
+import { useSelector, useDispatch } from "react-redux";
 
 const Contact = () => {
+
+  const dispatch = useDispatch();
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    subject: "",
+    message: "",
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+
+    
+    createContact(dispatch, formData)
+
+    setFormData({
+      name: "",
+      email: "",
+      subject: "",
+      message: "",
+    });
+  };
+
   return (
     <div className={styles.container}>
-      
+
       {/* LEFT INFO SECTION */}
       <motion.div 
         className={styles.infoSection}
@@ -44,36 +79,64 @@ const Contact = () => {
       >
         <h2 className={styles.formTitle}>Send Message</h2>
 
-        <form className={styles.form}>
+        <form className={styles.form} onSubmit={handleSubmit}>
+
           <div className={styles.inputGroup}>
-            <input type="text" required />
+            <input
+              type="text"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              required
+            />
             <label>Name</label>
           </div>
 
           <div className={styles.inputGroup}>
-            <input type="email" required />
+            <input
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              required
+            />
             <label>Email</label>
           </div>
 
           <div className={styles.inputGroup}>
-            <input type="text" required />
+            <input
+              type="text"
+              name="subject"
+              value={formData.subject}
+              onChange={handleChange}
+              required
+            />
             <label>Subject</label>
           </div>
 
           <div className={styles.inputGroup}>
-            <textarea rows="4" required></textarea>
+            <textarea
+              rows="4"
+              name="message"
+              value={formData.message}
+              onChange={handleChange}
+              required
+            ></textarea>
             <label>Message</label>
           </div>
 
-          <motion.button 
+          <motion.button
+            type="submit"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             className={styles.submitBtn}
           >
             Send Message
           </motion.button>
+
         </form>
       </motion.div>
+
     </div>
   );
 };
