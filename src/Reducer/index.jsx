@@ -1,6 +1,6 @@
 import { combineReducers } from "@reduxjs/toolkit";
 import authReducer from "./Slices/AuthSlice"
-import profileReducer from "./Slices/Profileslice";
+import profileReducer from "./Slices/ProfileSlice";
 import cartReducer from "./Slices/CartSlice"
 import spinnerReducer from './Slices/SpinnerSlice'
 import signupReducer from "./Slices/SignUpSlice";
