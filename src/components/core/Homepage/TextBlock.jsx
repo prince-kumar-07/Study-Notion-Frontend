@@ -1,5 +1,5 @@
 import './textblock.css';
-import CTAButton from './Ctabutton';
+import CTAButton from './CTAButton';
 import { motion } from "framer-motion";
 
 
