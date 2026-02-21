@@ -1,7 +1,7 @@
 import { showSpinner, hideSpinner } from "../../Reducer/Slices/SpinnerSlice";
 import { apiConnector } from "../apiConnector";
 import toast from "react-hot-toast";
-import { setUser, setAllUsers, setPendingInstructor } from "../../Reducer/Slices/Profileslice";
+import { setUser, setAllUsers, setPendingInstructor } from "../../Reducer/Slices/ProfileSlice";
 import { settingsEndpoints } from "../api";
 
 
