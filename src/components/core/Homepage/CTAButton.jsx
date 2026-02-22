@@ -1,6 +1,6 @@
 
 import { motion } from "framer-motion";
-import './Ctabutton.css';
+import './ctabutton.css';
 import { useNavigate } from "react-router-dom";
 import {MoveRight } from "lucide-react";
 
