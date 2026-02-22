@@ -1,4 +1,4 @@
-import styles from "./OtherLearnerReview.module.css";
+import styles from "./Otherlearnerreview.module.css";
 import { Star } from "lucide-react";
 
 export default function OtherLearnerReview() {
