@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState} from "react";
 import styles from "./Navbar.module.css";
-import { FaBars, FaChevronDown, FaSearch } from "react-icons/fa";
+import { FaBars, FaChevronDown } from "react-icons/fa";
 import { IoClose } from "react-icons/io5";
 import { CiShoppingCart } from "react-icons/ci";
 import { CgProfile } from "react-icons/cg";
@@ -47,13 +47,17 @@ const Navbar = () => {
       localStorage.setItem("category", JSON.stringify(result?.data?.allCategories));
     } catch (error) {
       toast.error("Error fetching categories");
+      console.log(error)
     }
   }
 
-  useEffect(() => {
-    fetchSublinks();
+ useEffect(() => {
+  const loadData = async () => {
+    await fetchSublinks();
+  };
 
-  }, []);
+  loadData();
+}, []);
 
   // ================= CLOSE DROPDOWN ON OUTSIDE CLICK =================
   useEffect(() => {

@@ -6,7 +6,7 @@ import { setAllCourses } from "../../Reducer/Slices/CourseSlice";
 
 const {
   CREATE_COURSE_API,
-  GET_ALL_COURSE_API,
+  // GET_ALL_COURSE_API,
   DELETE_COURSE_API,
   UPDATE_COURSE_API,
   GET_CREATED_COURSE_API,
@@ -26,7 +26,7 @@ export async function addNewCourse(dispatch, data, naviagte) {
    const token = JSON.parse(localStorage.getItem("token"))
 
    try {
-    const response = await apiConnector(
+    await apiConnector(
       "POST",
       CREATE_COURSE_API,
       data,
@@ -85,7 +85,7 @@ export async function updateEditedCourse(dispatch, formdata){
   //  console.log(formdata)
 
    try {
-    const response = await apiConnector(
+     await apiConnector(
       "PUT",
        UPDATE_COURSE_API,
       formdata,
@@ -117,7 +117,7 @@ export async function deleteCourse(dispatch, _id){
    const token = JSON.parse(localStorage.getItem("token"))
 
    try {
-    const response = await apiConnector(
+    await apiConnector(
       "DELETE",
       DELETE_COURSE_API,
       { courseId: _id },
@@ -146,7 +146,7 @@ export async function addSection(dispatch, formData){
    const token = JSON.parse(localStorage.getItem("token"))
 
    try {
-    const response = await apiConnector(
+     await apiConnector(
       "POST",
       CREATE_SECTION_API,
       formData,
@@ -174,7 +174,7 @@ export async function updateSection(dispatch, formData){
    const token = JSON.parse(localStorage.getItem("token"))
 
    try {
-    const response = await apiConnector(
+    await apiConnector(
       "PUT",
       UPDATE_SECTION_API,
       formData,
@@ -203,7 +203,7 @@ export async function deleteSection(dispatch, sectionId){
    const token = JSON.parse(localStorage.getItem("token"))
 
    try {
-    const response = await apiConnector(
+     await apiConnector(
       "DELETE",
       DELETE_SECTION_API,
       {sectionId},
@@ -230,7 +230,7 @@ export async function addSubSection(dispatch, formData){
    const token = JSON.parse(localStorage.getItem("token"))
 
    try {
-    const response = await apiConnector(
+     await apiConnector(
       "POST",
       CREATE_SUBSECTION_API,
       formData,
@@ -256,7 +256,7 @@ export async function updateSubSection(dispatch, formData){
    const token = JSON.parse(localStorage.getItem("token"))
 
    try {
-    const response = await apiConnector(
+     await apiConnector(
       "PUT",
       UPDATE_SUBSECTION_API,
       formData,
@@ -289,7 +289,7 @@ export async function deleteSubSection(dispatch, formData){
   const token = JSON.parse(localStorage.getItem("token"))
 
   try {
-    const response = await apiConnector(
+    await apiConnector(
       "DELETE",
       DELETE_SUBSECTION_API,
       data,   // ✅ send JSON instead of FormData

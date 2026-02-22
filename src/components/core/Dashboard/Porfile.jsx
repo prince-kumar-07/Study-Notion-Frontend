@@ -1,4 +1,5 @@
-import React, { memo } from "react";
+import { memo } from "react";
+// eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
 import { useSelector } from "react-redux";
 

@@ -1,5 +1,6 @@
-import React, { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect } from "react";
 import styles from "./MyCourseInstructorOnly.module.css";
+// eslint-disable-next-line no-unused-vars
 import { motion, AnimatePresence } from "framer-motion";
 import {
   VscEdit,
@@ -20,15 +21,14 @@ import {
 export default function MyCourseInstructorOnly() {
   const [editingCourse, setEditingCourse] = useState(null);
   const [confirmDelete, setConfirmDelete] = useState(null);
-  const [categoryData, setCategoryData] = useState([]);
+  // const [categoryData, setCategoryData] = useState([]);
   const [expandedCourse, setExpandedCourse] = useState(null);
 const [expandedSection, setExpandedSection] = useState(null);
 
-  useEffect(() => {
-    const stored = JSON.parse(localStorage.getItem("category")) || [];
-    setCategoryData(stored);
-    // console.log(user)
-  }, []);
+ const [categoryData] = useState(() => {
+  const stored = localStorage.getItem("category");
+  return stored ? JSON.parse(stored) : [];
+});
 
   // useEffect(() => {
   //    console.log(categoryData)

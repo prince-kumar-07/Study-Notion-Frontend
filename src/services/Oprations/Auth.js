@@ -23,7 +23,7 @@ const {
   CHANGE_PASSWORD_API
 } = settingsEndpoints
 
-export async function sendOTP(email, dispatch, navigate) {
+export async function sendOTP(email, dispatch) {
   dispatch(showSpinner("Requesting OTP..."));
 
   try {
@@ -34,6 +34,7 @@ export async function sendOTP(email, dispatch, navigate) {
 
     toast.success("OTP sent successfully");
     dispatch(setShowOTP());
+    
 
   } catch (error) {
      const message =
@@ -50,7 +51,7 @@ export async function signUP(dispatch, formData, otp) {
 
 
   try {
-    const response = await apiConnector("POST", SIGNUP_API, {
+    await apiConnector("POST", SIGNUP_API, {
       ...formData,
       otp,
     });
@@ -153,7 +154,7 @@ export async function PasswordChangeService(dispatch, formData) {
   console.log({...formData})
 
   try {
-    const response = await apiConnector("POST", RESETPASSWORD_API, {
+    await apiConnector("POST", RESETPASSWORD_API, {
       ...formData,  
     });
 
@@ -221,7 +222,7 @@ export async function PasswordUpdateService(dispatch, formData) {
   console.log({...formData})
 
   try {
-    const response = await apiConnector("POST", CHANGE_PASSWORD_API, {
+    await apiConnector("POST", CHANGE_PASSWORD_API, {
       currentPassword,
       newPassword,
       confirmNewPassword,

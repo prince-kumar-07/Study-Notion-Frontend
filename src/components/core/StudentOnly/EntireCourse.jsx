@@ -1,45 +1,38 @@
-import React, { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import styles from "./EntireCourse.module.css";
 
 import { useSelector, useDispatch } from "react-redux";
 import { VscBook, VscShield } from "react-icons/vsc";
-
+// eslint-disable-next-line no-unused-vars
 import { motion, AnimatePresence } from "framer-motion";
 
 import { fetchEntireCourses } from "../../../services/Oprations/Course";
-
 import { useNavigate, useLocation } from "react-router-dom";
-
 import { addToCart } from "../../../Reducer/Slices/CartSlice";
-
 import { formatINR } from "../../../services/Oprations/formatCurrency";
 
 export default function EntireCourse() {
   const dispatch = useDispatch();
-
   const navigate = useNavigate();
-
   const location = useLocation();
 
-  const path = location.pathname;
-
   const courses = useSelector((state) => state.course?.allCourse || []);
-
   const user = useSelector((state) => state.profile?.user || null);
 
   const [expandedCourse, setExpandedCourse] = useState(null);
-
   const [expandedSection, setExpandedSection] = useState(null);
 
-  const [isOpenRoute, setIsOpenRoute] = useState(true);
+  // ✅ derive instead of storing in state
+  const isOpenRoute = useMemo(() => {
+    return location.pathname !== "/learn-more";
+  }, [location.pathname]);
 
+  // ✅ only fetch logic inside effect
   useEffect(() => {
     if (!courses.length) {
       fetchEntireCourses(dispatch);
     }
-
-    setIsOpenRoute(path !== "/learn-more");
-  }, [dispatch, courses.length, path]);
+  }, [dispatch, courses.length]);
 
   const handleAddToCart = useCallback(
     (e, course) => {
@@ -56,15 +49,17 @@ export default function EntireCourse() {
           courseName: course.courseName,
           price: course.price,
           thumbnail: course.thumbnail,
-          instructor: `${course.instructor?.firstName || ""} ${course.instructor?.lastName || ""}`,
-        }),
+          instructor: `${course.instructor?.firstName || ""} ${
+            course.instructor?.lastName || ""
+          }`,
+        })
       );
     },
-    [dispatch, navigate, user],
+    [dispatch, navigate, user]
   );
 
   const handleBuyNow = useCallback(
-    (e, courseId) => {
+    (e) => {
       e.stopPropagation();
 
       if (!user) {
@@ -72,7 +67,7 @@ export default function EntireCourse() {
         return;
       }
     },
-    [navigate, user],
+    [navigate, user]
   );
 
   return (
@@ -98,7 +93,11 @@ export default function EntireCourse() {
           const isExpanded = expandedCourse === course._id;
 
           return (
-            <motion.div key={course._id} className={styles.courseCard} layout>
+            <motion.div
+              key={course._id}
+              className={styles.courseCard}
+              layout
+            >
               <div
                 className={styles.courseHeader}
                 onClick={() =>
@@ -113,7 +112,9 @@ export default function EntireCourse() {
                   />
 
                   <div>
-                    <h3 className={styles.courseTitle}>{course.courseName}</h3>
+                    <h3 className={styles.courseTitle}>
+                      {course.courseName}
+                    </h3>
 
                     <div className={styles.courseStats}>
                       <span>
@@ -149,7 +150,7 @@ export default function EntireCourse() {
 
                     <button
                       className={styles.buyBtn}
-                      onClick={(e) => handleBuyNow(e, course._id)}
+                      onClick={(e) => handleBuyNow(e)}
                     >
                       Buy Now
                     </button>
@@ -192,7 +193,8 @@ export default function EntireCourse() {
                       <div className={styles.sectionContainer}>
                         {course.courseContents?.length > 0 ? (
                           course.courseContents.map((section) => {
-                            const sectionOpen = expandedSection === section._id;
+                            const sectionOpen =
+                              expandedSection === section._id;
 
                             return (
                               <div
@@ -203,12 +205,11 @@ export default function EntireCourse() {
                                   className={styles.sectionHeader}
                                   onClick={() =>
                                     setExpandedSection(
-                                      sectionOpen ? null : section._id,
+                                      sectionOpen ? null : section._id
                                     )
                                   }
                                 >
                                   <span>📁 {section.sectionName}</span>
-
                                   <span>{sectionOpen ? "▲" : "▼"}</span>
                                 </div>
 
@@ -227,8 +228,9 @@ export default function EntireCourse() {
                                             className={styles.subCard}
                                           >
                                             <span>▶ {sub.title}</span>
-
-                                            <span className={styles.duration}>
+                                            <span
+                                              className={styles.duration}
+                                            >
                                               {sub.timeDuration}
                                             </span>
                                           </div>

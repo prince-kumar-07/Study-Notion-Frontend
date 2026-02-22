@@ -1,5 +1,6 @@
 import { useState } from "react";
 import styles from "./ChangePassword.module.css";
+// eslint-disable-next-line no-unused-vars
 import { motion, AnimatePresence } from "framer-motion";
 import { useParams } from "react-router-dom";
 import { PasswordChangeService } from "../../../services/Oprations/Auth";

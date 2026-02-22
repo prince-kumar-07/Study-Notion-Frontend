@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import styles from "./MyCoursesStudent.module.css";
 import { MoreVertical, Users } from "lucide-react";
+// eslint-disable-next-line no-unused-vars
 import { motion, AnimatePresence } from "framer-motion";
 
 const tempCourses = [

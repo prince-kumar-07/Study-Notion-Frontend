@@ -1,8 +1,9 @@
 import React from 'react';
 import {MoveRight } from "lucide-react";
+// eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
 import './Home.css';
-import { Link, useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import CTAButton from '../components/core/Homepage/CTAButton';
 import TextBlock from '../components/core/Homepage/TextBlock';
 import CodeBlock from '../components/core/Homepage/CodeBlock';
@@ -21,7 +22,7 @@ import usePageTitle from '../services/Oprations/Title/Title';
 function Home() {
   usePageTitle("Home")
 
-  const navigate = useNavigate()
+  // const navigate = useNavigate()
   return (
     <div className="home">
       <div className="section-block-1">

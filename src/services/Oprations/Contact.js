@@ -7,8 +7,8 @@ import { setAllContactMessage } from "../../Reducer/Slices/ContactSlice";
 const {
   CREAE_CONTACT_API,
   GET_ALLCONATCT_API,
-  GET_OPEN_API,
-  GET_CLOSE_CONTACT_API,
+  // GET_OPEN_API,
+  // GET_CLOSE_CONTACT_API,
   UPDATE_CONTACT_STATUS_API,
   REPLY_CONTACT_API,
 } = contactEndPoints;
@@ -17,7 +17,7 @@ export async function createContact(dispatch, data) {
   dispatch(showSpinner("Submitting Data..."));
 
   try {
-    const response = await apiConnector("POST", CREAE_CONTACT_API, data);
+    await apiConnector("POST", CREAE_CONTACT_API, data);
     // if (!response?.data?.success) {
     //   throw new Error(response?.data?.message || "Failed to submit");
     // }
@@ -61,7 +61,7 @@ export async function updateContactStatus(dispatch, data) {
   dispatch(showSpinner("Updating Status..."));
 
   try {
-    const response = await apiConnector("PUT", UPDATE_CONTACT_STATUS_API, data);
+    await apiConnector("PUT", UPDATE_CONTACT_STATUS_API, data);
 
     toast.success("Status Updated successfully");
     getAllContact(dispatch);
@@ -86,7 +86,7 @@ export async function replyContact(dispatch, data) {
   dispatch(showSpinner("Updating Status..."));
 
   try {
-    const response = await apiConnector("POST", REPLY_CONTACT_API, data);
+    await apiConnector("POST", REPLY_CONTACT_API, data);
     toast.success("Reply Updated successfully");
     getAllContact(dispatch);
     return;

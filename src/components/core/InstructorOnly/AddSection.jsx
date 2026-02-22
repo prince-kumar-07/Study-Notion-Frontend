@@ -1,83 +1,74 @@
 import React, { useEffect, useState } from "react";
 import styles from "./AddSection.module.css";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchCreatedCourse } from "../../../services/Oprations/Course";
-import { addSection, updateSection,deleteSection } from "../../../services/Oprations/Course";
+import {
+  fetchCreatedCourse,
+  addSection,
+  updateSection,
+  deleteSection,
+} from "../../../services/Oprations/Course";
 import { VscAdd, VscEdit, VscShield } from "react-icons/vsc";
 
-
 export default function AddSection() {
-
   const dispatch = useDispatch();
 
-  const courses = useSelector((state) => state.course.allCourse);
+  const courses = useSelector((state) => state.course.allCourse || []);
 
   const [selectedCourse, setSelectedCourse] = useState(null);
   const [sectionName, setSectionName] = useState("");
   const [editingSection, setEditingSection] = useState(null);
   const [deleteConfirmSection, setDeleteConfirmSection] = useState(null);
 
-
+  // ✅ Proper dependency added
   useEffect(() => {
     fetchCreatedCourse(dispatch);
-  }, []);
-
+  }, [dispatch]);
 
   const handleAddSection = async () => {
-
     if (!sectionName || !selectedCourse) return;
 
     const formData = new FormData();
-
     formData.append("sectionName", sectionName);
     formData.append("courseId", selectedCourse._id);
 
     await addSection(dispatch, formData);
 
-    setSectionName(null);
+    // ✅ reset properly (string not null)
+    setSectionName("");
     setSelectedCourse(null);
-    
   };
 
-  const handleEditSection = async () => {
+  function handleEditSection() {
+    if (!editingSection) return;
 
     const formData = new FormData();
-
     formData.append("sectionId", editingSection._id);
     formData.append("sectionName", sectionName);
-
-    await updateSection(dispatch, formData);
-
+    updateSection(dispatch, formData);
     setEditingSection(null);
-    setSectionName(null);
+    setSectionName("");
     setSelectedCourse(null);
   };
 
   const handleDeleteSection = async () => {
     if (!deleteConfirmSection) return;
 
-    // const formData = new FormData();
-    // formData.append("sectionId", deleteConfirmSection._id);
-    // formData.append("courseId", selectedCourse._id);
-
-    deleteSection(dispatch, deleteConfirmSection._id);
+    await deleteSection(dispatch, deleteConfirmSection._id);
 
     setDeleteConfirmSection(null);
     setSelectedCourse(null);
   };
 
-
   return (
     <div className={styles.container}>
-     <div className={styles.header}>
-  <h1 className={styles.title}>Manage Sections</h1>
+      <div className={styles.header}>
+        <h1 className={styles.title}>Manage Sections</h1>
 
-  <span className={styles.badge}>
-    <VscShield />
-    Instructor Only
-  </span>
-</div>
-
+        <span className={styles.badge}>
+          <VscShield />
+          Instructor Only
+        </span>
+      </div>
 
       {courses.map((course) => (
         <div key={course._id} className={styles.courseCard}>
@@ -89,17 +80,17 @@ export default function AddSection() {
               onClick={() => {
                 setSelectedCourse(course);
                 setEditingSection(null);
+                setSectionName("");
               }}
             >
               <VscAdd /> Add Section
             </button>
           </div>
 
-          {/* SECTION LIST */}
-
           {course.courseContents?.map((section) => (
             <div key={section._id} className={styles.sectionRow}>
               <span>{section.sectionName}</span>
+
               <div>
                 <button
                   className={styles.editBtn}
@@ -112,7 +103,6 @@ export default function AddSection() {
                   <VscEdit />
                 </button>
 
-                {/* NEW DELETE BUTTON */}
                 <button
                   className={styles.deleteBtn}
                   onClick={() => {
@@ -128,8 +118,7 @@ export default function AddSection() {
         </div>
       ))}
 
-      {/* MODAL */}
-
+      {/* ADD / EDIT MODAL */}
       {(selectedCourse || editingSection) && (
         <div className={styles.modalOverlay}>
           <div className={styles.modal}>
@@ -165,8 +154,7 @@ export default function AddSection() {
         </div>
       )}
 
-      {/* DELETE CONFIRM MODAL */}
-
+      {/* DELETE MODAL */}
       {deleteConfirmSection && (
         <div className={styles.modalOverlay}>
           <div className={styles.modal}>

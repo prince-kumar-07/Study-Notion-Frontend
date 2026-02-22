@@ -1,5 +1,6 @@
-import React, { useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import styles from "./CourseProgressInstructorOnly.module.css";
+// eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
 import {
   ResponsiveContainer,

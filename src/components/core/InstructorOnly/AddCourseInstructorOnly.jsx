@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import styles from "./AddCourseInstructorOnly.module.css";
+// eslint-disable-next-line no-unused-vars
 import { motion, AnimatePresence } from "framer-motion";
 import { VscCloudUpload } from "react-icons/vsc";
 import  {addNewCourse} from "../../../services/Oprations/Course";
@@ -22,12 +23,18 @@ const AddCourseInstructorOnly = () => {
   // const { token } = useSelector((state) => state.auth);
   const dispatch = useDispatch()
   const navigate = useNavigate();
-  const [categoryData, setCategoryData] = useState([])
   
 
-  useEffect(() => {
-  setCategoryData(JSON.parse(localStorage.getItem("category")) || [])
-  //  console.log(JSON.parse(localStorage.getItem("category")) || [])
+const [categoryData, setCategoryData] = useState([]);
+
+useEffect(() => {
+  function loadCategories() {
+    const stored = localStorage.getItem("category");
+    const parsed = stored ? JSON.parse(stored) : [];
+    setCategoryData(parsed);
+  }
+
+  loadCategories();
 }, []);
 
 

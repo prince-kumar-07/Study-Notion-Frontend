@@ -46,7 +46,9 @@ const {
     try {
       const { latitude, longitude, accuracy } = await getLocation();
       data = { ...data, latitude, longitude, accuracy };
-    } catch {}
+    } catch(error) {
+      console.log(error)
+    }
 
     login(dispatch, data, navigate, revoke);
     revoke && dispatch(removeShowRevokeModal());

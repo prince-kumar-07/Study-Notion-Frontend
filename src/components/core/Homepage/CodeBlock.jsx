@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef } from "react";
+// eslint-disable-next-line no-unused-vars
 import { motion, useInView } from "framer-motion";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { vscDarkPlus } from "react-syntax-highlighter/dist/esm/styles/prism";

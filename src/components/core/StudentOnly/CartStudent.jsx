@@ -1,5 +1,6 @@
 import { useState, useCallback, memo } from "react";
 import styles from "./CartStudent.module.css";
+// eslint-disable-next-line no-unused-vars
 import { motion, AnimatePresence } from "framer-motion";
 import { useSelector, useDispatch } from "react-redux";
 
@@ -12,7 +13,6 @@ import {
 import { formatINR } from "../../../services/Oprations/formatCurrency";
 
 export default function CartStudent() {
-
   const dispatch = useDispatch();
 
   const [promoCode, setPromoCode] = useState("");
@@ -26,12 +26,16 @@ export default function CartStudent() {
     finalPrice = 0,
   } = useSelector((state) => state.cart || {});
 
-  const removeItem = useCallback((courseId) => {
-    dispatch(removeFromCart(courseId));
-  }, [dispatch]);
+  // ================= REMOVE ITEM =================
+  const removeItem = useCallback(
+    (courseId) => {
+      dispatch(removeFromCart(courseId));
+    },
+    [dispatch]
+  );
 
+  // ================= APPLY PROMO =================
   const applyPromo = () => {
-
     const code = promoCode.trim().toUpperCase();
 
     if (!code) {
@@ -59,29 +63,24 @@ export default function CartStudent() {
 
   return (
     <div className={styles.wrapper}>
-
       <div className={styles.bgGradient}></div>
 
       <h1 className={styles.title}>My Cart</h1>
 
+      {/* ================= STATS ================= */}
       <div className={styles.stats}>
         <StatCard label="Total Courses" value={totalItem} />
         <StatCard label="Subtotal" value={`₹${subtotalFormatted}`} />
         <StatCard label="You Saved" value={`₹${discountFormatted}`} />
       </div>
 
-      {cartItems.length === 0 && (
-        <p>Your cart is empty</p>
-      )}
+      {cartItems.length === 0 && <p>Your cart is empty</p>}
 
       <div className={styles.layout}>
-
+        {/* ================= CART ITEMS ================= */}
         <div className={styles.cartItems}>
-
           <AnimatePresence>
-
             {cartItems.map((item) => (
-
               <motion.div
                 key={item._id}
                 className={styles.card}
@@ -89,9 +88,7 @@ export default function CartStudent() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, x: -50 }}
               >
-
                 <div className={styles.left}>
-
                   <img
                     src={item.thumbnail}
                     alt={item.courseName}
@@ -106,11 +103,9 @@ export default function CartStudent() {
                       </span>
                     </p>
                   </div>
-
                 </div>
 
                 <div className={styles.right}>
-
                   <span className={styles.price}>
                     ₹ {formatINR(item.price)}
                   </span>
@@ -121,19 +116,14 @@ export default function CartStudent() {
                   >
                     Remove
                   </button>
-
                 </div>
-
               </motion.div>
-
             ))}
-
           </AnimatePresence>
-
         </div>
 
+        {/* ================= SUMMARY ================= */}
         <div className={styles.summary}>
-
           <h2>Order Summary</h2>
 
           <div className={styles.summaryRow}>
@@ -153,14 +143,34 @@ export default function CartStudent() {
             <span>₹{finalFormatted}</span>
           </div>
 
+          {/* ================= PROMO SECTION ================= */}
+          <div className={styles.promoSection}>
+            <input
+              type="text"
+              placeholder="Enter promo code"
+              value={promoCode}
+              onChange={(e) => setPromoCode(e.target.value)}
+              className={styles.promoInput}
+            />
+
+            <button
+              onClick={applyPromo}
+              className={styles.applyBtn}
+            >
+              Apply
+            </button>
+
+            {promoError && (
+              <p className={styles.errorText}>{promoError}</p>
+            )}
+          </div>
         </div>
-
       </div>
-
     </div>
   );
 }
 
+// ================= MEMO STAT CARD =================
 const StatCard = memo(function StatCard({ label, value }) {
   return (
     <motion.div

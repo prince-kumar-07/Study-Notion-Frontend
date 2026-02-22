@@ -140,14 +140,16 @@ export async function updateUserBlockStatus(dispatch, data) {
   const token = localStorage.getItem("token");
 
   try {
-    const response = await apiConnector("POST", UPDATE_USER_STATUS_API, {
+    await apiConnector("POST", UPDATE_USER_STATUS_API, {
       ...data,
       token,
     });
-     fetchAllUser(dispatch)
+
+    fetchAllUser(dispatch);
   } catch (error) {
     toast.error(error.response?.data?.message || "Failed to update user Status");
   }
+
   dispatch(hideSpinner());
 }
 
@@ -157,7 +159,7 @@ export async function promoteToAdmin(dispatch, data) {
   const token = localStorage.getItem("token");
 
   try {
-    const response = await apiConnector("POST", UPDATE_USER_ACCOUNT_TYPE_API, {
+    await apiConnector("POST", UPDATE_USER_ACCOUNT_TYPE_API, {
       ...data,
       token,
     });

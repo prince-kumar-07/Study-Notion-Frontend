@@ -13,7 +13,7 @@ import { VscAdd, VscEdit, VscTrash, VscShield } from "react-icons/vsc";
 
 export default function AddSubSection() {
   const dispatch = useDispatch();
-  const courses = useSelector((state) => state.course.allCourse);
+  const courses = useSelector((state) => state.course.allCourse || []);
 
   const [selectedCourse, setSelectedCourse] = useState(null);
   const [selectedSection, setSelectedSection] = useState(null);
@@ -28,40 +28,25 @@ export default function AddSubSection() {
     videoFile: null,
   });
 
-  useEffect(() => {
-
-  if (!selectedCourse) return;
-
-  // get updated course from redux
-  const updatedCourse = courses.find(
-    (c) => c._id === selectedCourse._id
-  );
-
-  if (!updatedCourse) return;
-
-  // update selectedCourse
-  setSelectedCourse(updatedCourse);
-
-  // update selectedSection also
-  if (selectedSection) {
-    const updatedSection = updatedCourse.courseContents.find(
-      (s) => s._id === selectedSection._id
-    );
-
-    if (updatedSection) {
-      setSelectedSection(updatedSection);
-    } else {
-      setSelectedSection(null);
-    }
-  }
-
-}, [courses]);
-
-
-
+  // ✅ ONLY fetch here (no state syncing)
   useEffect(() => {
     fetchCreatedCourse(dispatch);
-  }, []);
+  }, [dispatch]);
+
+  //---------------------------------------------------
+  // DERIVED VALUES (instead of syncing state in effect)
+  //---------------------------------------------------
+
+  const derivedSelectedCourse = selectedCourse
+    ? courses.find((c) => c._id === selectedCourse._id)
+    : null;
+
+  const derivedSelectedSection =
+    derivedSelectedCourse && selectedSection
+      ? derivedSelectedCourse.courseContents?.find(
+          (s) => s._id === selectedSection._id
+        ) || null
+      : null;
 
   //---------------------------------------------------
   // Handle input change
@@ -70,17 +55,17 @@ export default function AddSubSection() {
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    setFormDataState({
-      ...formDataState,
+    setFormDataState((prev) => ({
+      ...prev,
       [name]: value,
-    });
+    }));
   };
 
   const handleVideoChange = (e) => {
-    setFormDataState({
-      ...formDataState,
+    setFormDataState((prev) => ({
+      ...prev,
       videoFile: e.target.files[0],
-    });
+    }));
   };
 
   //---------------------------------------------------
@@ -88,14 +73,14 @@ export default function AddSubSection() {
   //---------------------------------------------------
 
   const handleAdd = async () => {
-    if (!selectedSection) return;
+    if (!derivedSelectedSection) return;
 
     const formData = new FormData();
 
     formData.append("title", formDataState.title);
     formData.append("description", formDataState.description);
     formData.append("timeDuration", formDataState.timeDuration);
-    formData.append("sectionId", selectedSection._id);
+    formData.append("sectionId", derivedSelectedSection._id);
     formData.append("videoFile", formDataState.videoFile);
 
     await addSubSection(dispatch, formData);
@@ -132,9 +117,7 @@ export default function AddSubSection() {
     const formData = new FormData();
 
     formData.append("subSectionId", deleteConfirm._id);
-    formData.append("sectionId", selectedSection._id);
-
-     console.log("delete Sub Section.jsx", deleteConfirm._id, selectedSection._id)
+    formData.append("sectionId", derivedSelectedSection._id);
 
     await deleteSubSection(dispatch, formData);
 
@@ -162,13 +145,8 @@ export default function AddSubSection() {
 
   return (
     <div className={styles.container}>
-
-      {/* Header */}
-
       <div className={styles.header}>
-        <h1 className={styles.title}>
-          Manage SubSections
-        </h1>
+        <h1 className={styles.title}>Manage SubSections</h1>
 
         <span className={styles.badge}>
           <VscShield />
@@ -177,14 +155,12 @@ export default function AddSubSection() {
       </div>
 
       {/* Course Select */}
-
       <select
         className={styles.select}
         onChange={(e) => {
           const course = courses.find(
             (c) => c._id === e.target.value
           );
-
           setSelectedCourse(course);
           setSelectedSection(null);
         }}
@@ -199,22 +175,20 @@ export default function AddSubSection() {
       </select>
 
       {/* Section Select */}
-
-      {selectedCourse && (
+      {derivedSelectedCourse && (
         <select
           className={styles.select}
           onChange={(e) => {
             const section =
-              selectedCourse.courseContents.find(
+              derivedSelectedCourse.courseContents.find(
                 (s) => s._id === e.target.value
               );
-
             setSelectedSection(section);
           }}
         >
           <option>Select Section</option>
 
-          {selectedCourse.courseContents.map((section) => (
+          {derivedSelectedCourse.courseContents.map((section) => (
             <option key={section._id} value={section._id}>
               {section.sectionName}
             </option>
@@ -223,8 +197,7 @@ export default function AddSubSection() {
       )}
 
       {/* Add Button */}
-
-      {selectedSection && (
+      {derivedSelectedSection && (
         <button
           onClick={() => setEditingSubSection({})}
           className={styles.addBtn}
@@ -234,58 +207,46 @@ export default function AddSubSection() {
       )}
 
       {/* Subsection List */}
+      {derivedSelectedSection?.subSection?.length > 0 ? (
+        derivedSelectedSection.subSection.map((sub) => (
+          <div key={sub._id} className={styles.row}>
+            <span>{sub.title}</span>
 
-      {/* Subsection List */}
+            <div className={styles.actions}>
+              <button
+                className={styles.editBtn}
+                onClick={() => {
+                  setEditingSubSection(sub);
+                  setFormDataState({
+                    title: sub.title,
+                    description: sub.description,
+                    timeDuration: sub.timeDuration,
+                    videoFile: null,
+                  });
+                }}
+              >
+                <VscEdit />
+              </button>
 
-{selectedSection?.subSection?.length > 0 ? (
-  selectedSection.subSection.map((sub) => (
-    <div key={sub._id} className={styles.row}>
-
-      <span>{sub.title}</span>
-
-      <div className={styles.actions}>
-
-        <button
-          className={styles.editBtn}
-          onClick={() => {
-            setEditingSubSection(sub);
-
-            setFormDataState({
-              title: sub.title,
-              description: sub.description,
-              timeDuration: sub.timeDuration,
-              videoFile: null,
-            });
-          }}
-        >
-          <VscEdit />
-        </button>
-
-        <button
-          className={styles.deleteBtn}
-          onClick={() => setDeleteConfirm(sub)}
-        >
-          <VscTrash />
-        </button>
-
-      </div>
-
-    </div>
-  ))
-) : (
-  <p className={styles.empty}>
-   No subsections available yet
-  </p>
-)}
-
+              <button
+                className={styles.deleteBtn}
+                onClick={() => setDeleteConfirm(sub)}
+              >
+                <VscTrash />
+              </button>
+            </div>
+          </div>
+        ))
+      ) : (
+        <p className={styles.empty}>
+          No subsections available yet
+        </p>
+      )}
 
       {/* Add/Edit Modal */}
-
       {editingSubSection !== null && (
         <div className={styles.modalOverlay}>
-
           <div className={styles.modal}>
-
             <h2>
               {editingSubSection._id
                 ? "Edit SubSection"
@@ -313,33 +274,27 @@ export default function AddSubSection() {
               onChange={handleChange}
             />
 
-           <div className={styles.fileUpload}>
+            <div className={styles.fileUpload}>
+              <label className={styles.fileLabel}>
+                <input
+                  type="file"
+                  onChange={handleVideoChange}
+                  hidden
+                />
 
-  <label className={styles.fileLabel}>
+                <span className={styles.fileBtn}>
+                  Upload Video
+                </span>
 
-    <input
-      type="file"
-      onChange={handleVideoChange}
-      hidden
-    />
-
-    <span className={styles.fileBtn}>
-      Upload Video
-    </span>
-
-    <span className={styles.fileName}>
-      {formDataState.videoFile
-        ? formDataState.videoFile.name
-        : "No file selected"}
-    </span>
-
-  </label>
-
-</div>
-
+                <span className={styles.fileName}>
+                  {formDataState.videoFile
+                    ? formDataState.videoFile.name
+                    : "No file selected"}
+                </span>
+              </label>
+            </div>
 
             <div className={styles.modalActions}>
-
               <button
                 onClick={resetForm}
                 className={styles.cancelBtn}
@@ -357,27 +312,20 @@ export default function AddSubSection() {
               >
                 Save
               </button>
-
             </div>
-
           </div>
-
         </div>
       )}
 
       {/* Delete Confirm Modal */}
-
       {deleteConfirm && (
         <div className={styles.modalOverlay}>
-
           <div className={styles.modal}>
-
             <h3>
               Delete "{deleteConfirm.title}" ?
             </h3>
 
             <div className={styles.modalActions}>
-
               <button
                 onClick={() => setDeleteConfirm(null)}
                 className={styles.cancelBtn}
@@ -391,14 +339,10 @@ export default function AddSubSection() {
               >
                 Delete
               </button>
-
             </div>
-
           </div>
-
         </div>
       )}
-
     </div>
   );
 }

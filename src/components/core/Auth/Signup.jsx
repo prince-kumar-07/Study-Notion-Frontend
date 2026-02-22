@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import styles from "./Signup.module.css";
 import countryCodes from "../../../../data/countrycode.json";
 import { FaEnvelope, FaLock, FaPhone, FaUser } from "react-icons/fa";
