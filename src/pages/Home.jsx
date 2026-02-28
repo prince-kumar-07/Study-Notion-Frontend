@@ -15,12 +15,13 @@ import Otherlernerreview from '../components/core/Homepage/Otherlearnerreview';
 import InstructorSection from '../components/core/Homepage/InstructorSection';
 import Explore from '../components/core/Homepage/Explore';
 import usePageTitle from '../services/Oprations/Title/Title';
-
+import { useNavigate } from 'react-router-dom';
 
 
 
 function Home() {
   usePageTitle("Home")
+  const navigate = useNavigate()
 
   // const navigate = useNavigate()
   return (
@@ -33,6 +34,8 @@ function Home() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3, duration: 0.5 }}
           className="get-started-btn"
+          onClick={() => navigate("/login")}
+
         >
           Get Started <MoveRight size={30} />
         </motion.button>
@@ -59,8 +62,8 @@ function Home() {
         </motion.p>
 
         <div className="learn-and-bookdemo-div">
-          <CTAButton text="Learn More" link="/learn-more" active={true} />
-          <CTAButton text="Book a Demo" link="/book-demo" active={false} />
+          <CTAButton text="Learn More" link="/AllCourses" active={true} />
+          <CTAButton  text="Book a Demo" link="/login" active={false} />
         </div>
 
         <div className="home-video-container">
@@ -82,8 +85,8 @@ function Home() {
           <TextBlock
             btnText1="Try it yourself"
             btnText2="Learn More"
-            btnLink1="/try-it-yourself"
-            btnLink2="/learn-more"
+            btnLink1="/AllCourses"
+            btnLink2="/AllCourses"
             heading="Start coding in seconds"
             subheading="Go ahead, give it a try. Our hands-on learning environment means you'll be writing real code from your very first lesson. No setup, no downloads, just pure coding fun right in your browser."
           />
@@ -97,8 +100,8 @@ function Home() {
           <TextBlock
             btnText1="Countinue Learning"
             btnText2="Learn More"
-            btnLink1="/try-it-yourself"
-            btnLink2="/learn-more"
+            btnLink1="/login"
+            btnLink2="/AllCourses"
             heading="Unlock your coding potential with our online courses."
             subheading="Our courses are designed and taught by industry experts who have years of experience in coding and are passionate about sharing their knowledge with you."
           />
@@ -110,7 +113,7 @@ function Home() {
       <div className="section-block-2">
 
        <div className='learn-and-bookdemo-div'>
-         <CTAButton text="Explore Full Catalog" link="/signup" active={true} />
+         <CTAButton text="Explore Full Catalog" link="/AllCourses" active={true} />
          <CTAButton text="Learn More" link="/signup" active={false} />
        </div>
 

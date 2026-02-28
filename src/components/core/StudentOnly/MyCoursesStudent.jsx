@@ -1,38 +1,30 @@
 import { useState, useEffect } from "react";
 import styles from "./MyCoursesStudent.module.css";
 import { MoreVertical, Users } from "lucide-react";
-// eslint-disable-next-line no-unused-vars
 import { motion, AnimatePresence } from "framer-motion";
-
-const tempCourses = [
-  {
-    id: 1,
-    courseName: "Complete React Mastery",
-    instructor: { firstName: "John", lastName: "Doe" },
-    price: 2999,
-    thumbnail:
-      "https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=500",
-    studentEnrolled: [1, 2, 3, 4, 5],
-    progress: 65,
-  },
-  {
-    id: 2,
-    courseName: "Advanced NodeJS Bootcamp",
-    instructor: { firstName: "Sarah", lastName: "Smith" },
-    price: 3499,
-    thumbnail:
-      "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=500",
-    studentEnrolled: [1, 2],
-    progress: 100,
-  },
-];
+import { fetchEntrolledCourse } from "../../../services/Oprations/Course";
+import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 export default function MyCoursesStudent() {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [openMenu, setOpenMenu] = useState(null);
+
+  const user = useSelector((state) => state.profile?.user || null);
+  const courses = useSelector((state) => state.course?.entrolledCourse || []);
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (user?._id) {
+      fetchEntrolledCourse(dispatch, user._id);
+    }
+  }, [dispatch, user]);
 
   useEffect(() => {
     setTimeout(() => setLoading(false), 1200);
+    // console.log(courses)
   }, []);
 
   return (
@@ -52,26 +44,31 @@ export default function MyCoursesStudent() {
           </div>
         ) : (
           <AnimatePresence>
-            {tempCourses.map((course, index) => (
+            {courses?.map((course, index) => (
               <motion.div
-                key={course.id}
+                key={course._id}
                 className={styles.row}
                 initial={{ opacity: 0, y: 40 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
+                onClick={() =>
+                  navigate(`/view-course/${course._id}`)
+                }
               >
                 <div className={styles.courseInfo}>
-                  <img src={course.thumbnail} alt="" />
+                  <img src={course.thumbnail} alt="course" />
+
                   <div>
                     <h3>{course.courseName}</h3>
+
                     <p>
-                      {course.instructor.firstName}{" "}
-                      {course.instructor.lastName}
+                      {course.instructor?.firstName}{" "}
+                      {course.instructor?.lastName}
                     </p>
 
                     <div className={styles.studentBadge}>
                       <Users size={14} />
-                      {course.studentEnrolled.length} Students
+                      {course.studentEnrolled?.length || 0} Students
                     </div>
                   </div>
                 </div>
@@ -83,20 +80,23 @@ export default function MyCoursesStudent() {
                     <motion.div
                       className={styles.progressFill}
                       initial={{ width: 0 }}
-                      animate={{ width: `${course.progress}%` }}
+                      animate={{ width: `0%` }}
                       transition={{ duration: 1 }}
                     />
                   </div>
-                  <small>{course.progress}%</small>
+
+                  <small>0%</small>
                 </div>
 
                 <div
                   className={styles.action}
-                  onClick={() =>
-                    setOpenMenu(openMenu === index ? null : index)
-                  }
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setOpenMenu(openMenu === index ? null : index);
+                  }}
                 >
                   <MoreVertical size={18} />
+
                   {openMenu === index && (
                     <motion.div
                       className={styles.dropdown}

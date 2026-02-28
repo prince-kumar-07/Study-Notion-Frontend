@@ -27,6 +27,18 @@ const NotFound = lazy(() =>
   import("./components/core/Others/NotFound")
 );
 
+const CategoryDeatils = lazy(() =>
+  import("./components/core/Common/CategoryDeatils")
+);
+
+const CourseDeatils = lazy(() =>
+  import("./components/core/Common/CourseDeatils")
+);
+
+const AllCourses = lazy(() =>
+  import("./components/core/Common/AllCourses")
+);
+
 const Dashboard = lazy(() => import("./components/core/Dashboard/Dashboard"));
 
 const Profile = lazy(() =>
@@ -65,9 +77,18 @@ const RevenueAndExpense = lazy(() =>
   import("./components/core/AdminOnly/RevenueAndExpense")
 );
 
+const ManageCatelog = lazy(() =>
+  import("./components/core/AdminOnly/ManageCatelog")
+);
+
 const StudentsProgress = lazy(() =>
   import("./components/core/StudentOnly/StudentsProgress")
 );
+
+const ViewCourse = lazy(() =>
+  import("./components/core/StudentOnly/ViewCourse")
+);
+
 const CourseProgressInstructorOnly = lazy(() =>
   import("./components/core/InstructorOnly/CourseProgressInstructorOnly")
 );
@@ -133,11 +154,38 @@ function App() {
               }
             />
 
-            <Route
+             <Route
+              path="/AllCourses"
+              element={
+                <PageTransition>
+                  <AllCourses />
+                </PageTransition>
+              }
+            />
+
+            {/* <Route
               path="/learn-more"
               element={
                 <PageTransition>
                   <EntireCourse />
+                </PageTransition>
+              }
+            /> */}
+
+             <Route
+              path="/category/:categoryId"
+              element={
+                <PageTransition>
+                  <CategoryDeatils />
+                </PageTransition>
+              }
+            />
+
+             <Route
+              path="/CourseDeatils/:courseId"
+              element={
+                <PageTransition>
+                  <CourseDeatils />
                 </PageTransition>
               }
             />
@@ -197,6 +245,18 @@ function App() {
                 <RoleRoute allowedRole="Student">
                   <PageTransition>
                     <CartStudent />
+                  </PageTransition>
+                </RoleRoute>
+              }
+            />
+
+            
+            <Route
+              path="/view-course/:courseId"
+              element={
+                <RoleRoute allowedRole="Student">
+                  <PageTransition>
+                    <ViewCourse />
                   </PageTransition>
                 </RoleRoute>
               }
@@ -314,6 +374,17 @@ function App() {
                   <RoleRoute allowedRole="Admin">
                     <PageTransition>
                       <RevenueAndExpense />
+                    </PageTransition>
+                  </RoleRoute>
+                }
+              />
+
+              <Route
+                path="admin-catelog-management"
+                element={
+                  <RoleRoute allowedRole="Admin">
+                    <PageTransition>
+                      <ManageCatelog />
                     </PageTransition>
                   </RoleRoute>
                 }

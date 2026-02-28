@@ -6,6 +6,7 @@ import spinnerReducer from './Slices/SpinnerSlice'
 import signupReducer from "./Slices/SignUpSlice";
 import courseSlice from "./Slices/CourseSlice"
 import ContactSlice from "./Slices/ContactSlice";
+import categorySlice from "./Slices/Category"
 
 
 const rootReducer  = combineReducers({
@@ -15,7 +16,8 @@ const rootReducer  = combineReducers({
     spinner: spinnerReducer,
     signup: signupReducer,
     course: courseSlice,
-    contact: ContactSlice
+    contact: ContactSlice,
+    category: categorySlice,
 })
 
 export default rootReducer

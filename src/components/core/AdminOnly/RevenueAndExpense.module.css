@@ -27,13 +27,7 @@
   to { box-shadow: 0 0 30px gold; }
 }
 
-.ceoBadge {
-  background: linear-gradient(90deg, #b8860b, gold);
-  color: black;
-  padding: 5px 10px;
-  font-size: 11px;
-  border-radius: 20px;
-}
+
 
 .headerActions button {
   margin-left: 10px;
@@ -173,7 +167,7 @@
   border: 1px solid #1e293b;
 }
 
-/* SAME HEIGHT FOR ALL */
+
 .monthFilter,
 .addBtn,
 .exportBtn {
@@ -187,7 +181,7 @@
   justify-content: center;
 }
 
-/* Dropdown */
+
 .monthFilter {
   background: transparent;
   color: #e2e8f0;
@@ -196,7 +190,7 @@
   outline: none;
 }
 
-/* Add Button */
+
 .addBtn {
   background: linear-gradient(135deg, #7c3aed, #9333ea);
   color: white;
@@ -208,7 +202,7 @@
   background: linear-gradient(135deg, #9333ea, #a855f7);
 }
 
-/* Export Button */
+
 .exportBtn {
   background: #1e293b;
   color: #cbd5e1;
@@ -220,4 +214,18 @@
 .exportBtn:hover {
   background: #334155;
   color: white;
+}
+.securityBadge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(135deg, #9333ea, #6366f1);
+  padding: 8px 16px;
+  border-radius: 50px;
+  font-size: 13px;
+  font-weight: 600;
+  color: white;
+  width: 200px;
+  justify-content: center;
+  
 }

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState} from "react";
+import { useEffect, useRef, useState} from "react";
 import styles from "./Navbar.module.css";
 import { FaBars, FaChevronDown } from "react-icons/fa";
 import { IoClose } from "react-icons/io5";
@@ -6,81 +6,65 @@ import { CiShoppingCart } from "react-icons/ci";
 import { CgProfile } from "react-icons/cg";
 import logo from "../../../../assets/Logo/Logo-Full-Light.png";
 import { useSelector } from "react-redux";
-import toast from "react-hot-toast";
-import { apiConnector } from "../../../services/apiConnector";
-import { categories } from "../../../services/api";
 import { useNavigate } from "react-router-dom";
 import {logout} from "../../../services/Oprations/Auth"
 import { useDispatch } from "react-redux";
+import { getAllCategory, getSeletedCategoryData } from "../../../services/Oprations/Category"
 
 
 const Navbar = () => {
-   const { totalItem } = useSelector((state) => state.cart);
+const { totalItem } = useSelector((state) => state.cart);
+const { allCategory } = useSelector((state) => state.category);
+
   
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [dropdown, setDropdown] = useState(false);
-  // const [searchOpen, setSearchOpen] = useState(false);
+  const [desktopDropdown, setDesktopDropdown] = useState(false);
+  const [mobileDropdown, setMobileDropdown] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
-  const [subLinks, setSubLinks] = useState([]);
-  const navigate = useNavigate()
-  const dispatch = useDispatch()
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const dropdownRef = useRef(null);
 
   const { token } = useSelector((state) => state.auth);
   const { user } = useSelector((state) => state.profile);
-  // const totalItem = useSelector((state) => state.cart?.totalItem || 0);
 
-  // ================= FETCH CATEGORIES =================
-  async function fetchSublinks() {
-    try {
-      //  console.log("hello")
-      const result = await apiConnector(
-        "GET",
-        categories.CATEGORIES_API
-      );
-    //  console.log("hi////////////////")
-      const namesArray =
-        result?.data?.allCategories?.map((item) => item.name) || [];
-
-      setSubLinks(namesArray);
-      localStorage.setItem("category", JSON.stringify(result?.data?.allCategories));
-    } catch (error) {
-      toast.error("Error fetching categories");
-      console.log(error)
-    }
+  useEffect(() => {
+  if (!mobileOpen) {
+    setMobileDropdown(false);
   }
+}, [mobileOpen]);
 
  useEffect(() => {
-  const loadData = async () => {
-    await fetchSublinks();
-  };
+   getAllCategory(dispatch);
+   setProfileOpen(false)
+ }, []);
 
-  loadData();
-}, []);
+ function handleSeletedCategoryData(id){
+  getSeletedCategoryData(dispatch, id, navigate)
+  setDesktopDropdown(false)
+ }
+ 
+  // useEffect(() => {
+  //   function handleClickOutside(event) {
+  //     if (
+  //       dropdownRef.current &&
+  //       !dropdownRef.current.contains(event.target)
+  //     ) {
+  //       // setDropdown(false);
+  //     }
+  //   }
 
-  // ================= CLOSE DROPDOWN ON OUTSIDE CLICK =================
-  useEffect(() => {
-    function handleClickOutside(event) {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target)
-      ) {
-        setDropdown(false);
-      }
-    }
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () =>
-      document.removeEventListener(
-        "mousedown",
-        handleClickOutside
-      );
-  }, []);
+  //   document.addEventListener("mousedown", handleClickOutside);
+  //   return () =>
+  //     document.removeEventListener(
+  //       "mousedown",
+  //       handleClickOutside
+  //     );
+  // }, []);
 
 
   function handleLogout(){
-    
     logout(dispatch)
     navigate("/")
   }
@@ -88,15 +72,14 @@ const Navbar = () => {
   function handleMyProfileClick(){
     navigate("dashboard/profile")
     setProfileOpen(false)
-
   }
 
   return (
     <>
-      {/* ================= NAVBAR ================= */}
+     
       <nav className={styles.navbar}>
         <div className={styles.container}>
-          {/* LOGO */}
+         
           <div className={styles.logoSection}>
             <img
               src={logo}
@@ -106,24 +89,26 @@ const Navbar = () => {
             />
           </div>
 
-          {/* ================= DESKTOP LINKS ================= */}
+        
           <ul className={styles.navLinks}>
             <li onClick={() => navigate("/")}>Home</li>
 
-            {/* CLICK DROPDOWN */}
             <li className={styles.catalogWrapper} ref={dropdownRef}>
               <div
                 className={styles.catalog}
-                onClick={() => setDropdown(!dropdown)}
+                onClick={() => setDesktopDropdown(!desktopDropdown)}
               >
                 Catalog <FaChevronDown />
               </div>
 
-              {dropdown && (
+              {desktopDropdown && (
                 <div className={styles.dropdown}>
-                  {subLinks.map((name) => (
-                    <div key={name} className={styles.dropdownItem}>
-                      {name}
+                  {allCategory.map((data) => (
+                    <div key={data._id}
+                     className={styles.dropdownItem}
+                     onClick={() => handleSeletedCategoryData(data._id)}
+                     >
+                      {data.name}
                     </div>
                   ))}
                 </div>
@@ -134,21 +119,14 @@ const Navbar = () => {
             <li onClick={() => navigate("/contactus")}>Contact Us</li>
           </ul>
 
-          {/* ================= DESKTOP AUTH ================= */}
+         
           <div className={styles.desktopAuth}>
             {token ? (
               <div className={styles.userSection}>
-                {/* <button
-                  className={styles.iconBtn}
-                  onClick={() => setSearchOpen(true)}
-                >
-                  <FaSearch />
-                </button> */}
-
                 {user?.accountType === "Student" && (
                   <button
                     className={styles.cartBtn}
-                    onClick={() => navigate("/dashboard/cart")}
+                    onClick={() => navigate("/mycart")}
                   >
                     <CiShoppingCart />
                     {totalItem > 0 && (
@@ -157,7 +135,7 @@ const Navbar = () => {
                   </button>
                 )}
 
-                {/* PROFILE */}
+                
                 <div className={styles.profileWrapper}>
                   <button
                     className={styles.iconBtn}
@@ -216,7 +194,7 @@ const Navbar = () => {
             )}
           </div>
 
-          {/* HAMBURGER */}
+         
           <div
             className={styles.hamburger}
             onClick={() => setMobileOpen((prev) => !prev)}
@@ -226,7 +204,6 @@ const Navbar = () => {
         </div>
       </nav>
 
-      {/* ================= MOBILE MENU ================= */}
       {mobileOpen && (
         <div className={styles.overlay} onClick={() => setMobileOpen(false)}>
           <div
@@ -239,12 +216,19 @@ const Navbar = () => {
             </div>
 
             <ul className={styles.mobileLinks}>
-              <li>Home</li>
+              <li
+                onClick={() => {
+                  navigate("/");
+                  setMobileOpen(false);
+                }}
+              >
+                Home
+              </li>
 
-              {/* MOBILE DROPDOWN CLICK */}
+              
               <li>
                 <div
-                  onClick={() => setDropdown(!dropdown)}
+                  onClick={() => setMobileDropdown(!mobileDropdown)}
                   style={{
                     display: "flex",
                     justifyContent: "space-between",
@@ -253,29 +237,62 @@ const Navbar = () => {
                   Catalog <FaChevronDown />
                 </div>
 
-                {dropdown && (
+                {mobileDropdown && (
                   <div
                     style={{
                       paddingLeft: "10px",
                       marginTop: "10px",
                     }}
                   >
-                    {subLinks.map((name) => (
+                    {allCategory.map((data) => (
                       <div
-                        key={name}
+                        key={data._id}
                         style={{
                           padding: "6px 0",
                         }}
                       >
-                        {name}
+                        {data.name}
                       </div>
                     ))}
                   </div>
                 )}
               </li>
 
-              <li>About Us</li>
-              <li>Contact Us</li>
+              <li
+                onClick={() => {
+                  navigate("/login");
+                  setMobileOpen(false);
+                }}
+              >
+                Login
+              </li>
+
+              <li
+                onClick={() => {
+                  navigate("/signup");
+                  setMobileOpen(false);
+                }}
+              >
+                SignUP
+              </li>
+
+              <li
+                onClick={() => {
+                  navigate("/aboutus");
+                  setMobileOpen(false);
+                }}
+              >
+                About Us
+              </li>
+
+              <li
+                onClick={() => {
+                  navigate("/contactus");
+                  setMobileOpen(false);
+                }}
+              >
+                Contact Us
+              </li>
             </ul>
           </div>
         </div>

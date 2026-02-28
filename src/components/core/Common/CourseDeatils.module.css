@@ -1,0 +1,254 @@
+
+* {
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  margin: 0;
+  padding: 0;
+  height: auto;
+  overflow-x: hidden;
+}
+
+
+.wrapper {
+  position: relative;
+  background: #050914;
+  color: white;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  overflow: hidden; 
+}
+
+
+.diagonalBg {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 65%;
+  height: 700px;
+  background: linear-gradient(135deg, #0f172a, #1e293b);
+  clip-path: polygon(20% 0, 100% 0, 100% 100%, 0 100%);
+  z-index: 0;
+  pointer-events: none;
+}
+
+
+.orbOne,
+.orbTwo {
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  border-radius: 50%;
+  filter: blur(150px);
+  opacity: 0.3;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.orbOne {
+  background: #2563eb;
+  top: -200px;
+  left: -200px;
+}
+
+.orbTwo {
+  background: #06b6d4;
+  bottom: -200px; 
+  right: -200px;
+}
+
+
+.noise {
+  position: absolute;
+  inset: 0;
+  background-image: url("https://grainy-gradients.vercel.app/noise.svg");
+  opacity: 0.04;
+  pointer-events: none;
+  z-index: 1;
+}
+
+
+.hero {
+  padding: 120px 8%;
+  position: relative;
+  z-index: 2;
+}
+
+.heroContainer {
+  display: grid;
+  grid-template-columns: 1.2fr 420px;
+  gap: 80px;
+  align-items: start;
+}
+
+
+.left h1 {
+  font-size: 56px;
+  font-weight: 700;
+  margin: 20px 0;
+  letter-spacing: -1px;
+}
+
+.left p {
+  font-size: 18px;
+  color: #9ca3af;
+  line-height: 1.6;
+}
+
+.tag {
+  background: rgba(255,255,255,0.06);
+  padding: 6px 14px;
+  border-radius: 40px;
+  font-size: 14px;
+}
+
+.meta {
+  margin-top: 20px;
+  color: #38bdf8;
+}
+
+
+.previewImageWrapper {
+  margin-top: 40px;
+}
+
+.previewImageWrapper img {
+  width: 100%;
+  max-width: 400px;
+  border-radius: 24px;
+  box-shadow: 0 40px 80px rgba(0,0,0,0.6);
+  display: block;
+}
+
+
+.purchaseCard {
+  position: sticky;
+  top: 120px;
+  padding: 40px;
+  border-radius: 28px;
+  background: linear-gradient(
+    145deg,
+    rgba(30,41,59,0.9),
+    rgba(15,23,42,0.95)
+  );
+  border: 1px solid rgba(255,255,255,0.05);
+  box-shadow: 0 30px 60px rgba(0,0,0,0.6);
+  overflow: hidden;
+  transition: transform 0.3s ease;
+  z-index: 3;
+}
+
+.purchaseCard::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at var(--x, 50%) var(--y, 50%),
+    rgba(255,255,255,0.15),
+    transparent 40%
+  );
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.purchaseCard h3 {
+  font-size: 32px;
+  margin-bottom: 25px;
+}
+
+.primaryBtn {
+  width: 100%;
+  padding: 16px;
+  border-radius: 18px;
+  border: none;
+  background: linear-gradient(135deg,#3b82f6,#06b6d4);
+  font-weight: 600;
+  margin-bottom: 15px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.primaryBtn:hover {
+  transform: translateY(-2px);
+}
+
+.secondaryBtn {
+  width: 100%;
+  padding: 16px;
+  border-radius: 18px;
+  border: 1px solid rgba(255,255,255,0.1);
+  background: transparent;
+  color: white;
+  cursor: pointer;
+}
+
+
+.container {
+  padding: 100px 8%;
+  position: relative;
+  z-index: 2;
+}
+
+.section {
+  margin-bottom: 100px;
+}
+
+.learnGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 24px;
+}
+
+.learnCard {
+  padding: 24px;
+  border-radius: 20px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.05);
+  transition: 0.3s;
+}
+
+.learnCard:hover {
+  transform: translateY(-6px);
+  background: rgba(255,255,255,0.06);
+}
+
+.curriculumCard {
+  background: rgba(255,255,255,0.03);
+  border-radius: 18px;
+  margin-bottom: 16px;
+  overflow: hidden;
+}
+
+.curriculumHeader {
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
+.curriculumBody {
+  padding: 20px;
+  border-top: 1px solid rgba(255,255,255,0.05);
+}
+
+.subItem {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+
+@media(max-width:1100px){
+  .heroContainer{
+    grid-template-columns: 1fr;
+  }
+
+  .purchaseCard{
+    position: static;
+    margin-top: 50px;
+  }
+
+  .diagonalBg{
+    display: none;
+  }
+}

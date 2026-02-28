@@ -11,25 +11,22 @@ function Dashboard() {
 
   return (
     <div className={styles.dashboard}>
-      
-      {/* Hamburger Button (Mobile Only) */}
-      <button
-        className={styles.menuBtn}
-        onClick={() => setIsOpen(true)}
-      >
-        ☰
-      </button>
-
-      {/* Sidebar stays STATIC */}
       <Sidebar isOpen={isOpen} setIsOpen={setIsOpen} />
 
-      {/* Animate only content */}
-      <div className={styles.contentArea}>
-        <AnimatePresence mode="wait">
-          <PageTransition key={location.pathname}>
-            <Outlet />
-          </PageTransition>
-        </AnimatePresence>
+      <div className={styles.main}>
+        {!isOpen && (
+          <button className={styles.menuBtn} onClick={() => setIsOpen(true)}>
+            ☰
+          </button>
+        )}
+
+        <div className={styles.contentArea}>
+          <AnimatePresence mode="wait">
+            <PageTransition key={location.pathname}>
+              <Outlet />
+            </PageTransition>
+          </AnimatePresence>
+        </div>
       </div>
     </div>
   );

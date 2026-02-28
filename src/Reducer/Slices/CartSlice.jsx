@@ -9,6 +9,8 @@ const initialState = {
 
   cartItems: cartFromStorage,
 
+  cartItemIds: cartFromStorage.map((item) => item._id),
+
   totalItem: cartFromStorage.reduce(
     (total, item) => total + item.quantity,
     0
@@ -51,7 +53,6 @@ const cartSlice = createSlice({
 
   reducers: {
 
-    // ADD TO CART
     addToCart(state, action) {
 
       const item = action.payload;
@@ -72,6 +73,9 @@ const cartSlice = createSlice({
         quantity: 1,
       });
 
+      // ADD ID
+      state.cartItemIds.push(item._id);
+
       state.totalItem += 1;
 
       state.totalPrice += item.price;
@@ -84,7 +88,6 @@ const cartSlice = createSlice({
 
     },
 
-    // REMOVE FROM CART
     removeFromCart(state, action) {
 
       const itemId = action.payload;
@@ -104,6 +107,11 @@ const cartSlice = createSlice({
         (i) => i._id !== itemId
       );
 
+      // REMOVE ID
+      state.cartItemIds = state.cartItemIds.filter(
+        (id) => id !== itemId
+      );
+
       calculateFinalPrice(state);
 
       saveToLocalStorage(state);
@@ -112,7 +120,6 @@ const cartSlice = createSlice({
 
     },
 
-    // APPLY FIXED DISCOUNT
     applyDiscount(state, action) {
 
       state.discount = action.payload;
@@ -123,7 +130,6 @@ const cartSlice = createSlice({
 
     },
 
-    // APPLY PERCENT DISCOUNT
     applyDiscountPercent(state, action) {
 
       const percent = action.payload;
@@ -137,12 +143,32 @@ const cartSlice = createSlice({
 
     },
 
-    // CLEAR DISCOUNT
     clearDiscount(state) {
 
       state.discount = 0;
 
       calculateFinalPrice(state);
+
+    },
+
+    resetCart(state) {
+
+      state.cartItems = [];
+
+      // RESET ID ARRAY
+      state.cartItemIds = [];
+
+      state.totalItem = 0;
+
+      state.totalPrice = 0;
+
+      state.discount = 0;
+
+      state.finalPrice = 0;
+
+      saveToLocalStorage(state);
+
+      // toast.success("Cart cleared");
 
     },
 
@@ -157,6 +183,7 @@ export const {
   applyDiscount,
   applyDiscountPercent,
   clearDiscount,
+  resetCart,
 
 } = cartSlice.actions;
 

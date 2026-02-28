@@ -175,8 +175,6 @@
 }
 
 
-/* Responsive */
-
 @media(max-width:768px){
 
   .tableHead{
@@ -224,7 +222,7 @@
   justify-content: center;
   
 }
-/* Modern SaaS modal */
+
 
 .overlay{
   position:fixed;

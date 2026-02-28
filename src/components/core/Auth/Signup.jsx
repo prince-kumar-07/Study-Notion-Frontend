@@ -1,7 +1,7 @@
 import { useState, useRef } from "react";
 import styles from "./Signup.module.css";
 import countryCodes from "../../../../data/countrycode.json";
-import { FaEnvelope, FaLock, FaPhone, FaUser } from "react-icons/fa";
+import { FaEnvelope, FaLock, FaPhone, FaUser, FaEye, FaEyeSlash } from "react-icons/fa";
 import { IoClose } from "react-icons/io5";
 import { useDispatch } from "react-redux";
 import { setCloseOTP } from "../../../Reducer/Slices/SignUpSlice";
@@ -17,6 +17,8 @@ const Signup = () => {
 
   const [accountType, setAccountType] = useState("Student");
   const { showOtp, success } = useSelector((state) => state.signup || {});
+  const [showPassword, setShowPassword] = useState(false);
+const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
   const [error, setError] = useState(false);
@@ -109,8 +111,6 @@ const Signup = () => {
 
   const closeModal = () => {
     dispatch(setCloseOTP());
-    // setShowOtp(false);
-    // setSuccess(false);
     setOtp(["", "", "", "", "", ""]);
     setError(false);
   };
@@ -120,7 +120,7 @@ const Signup = () => {
       <div className={styles.card}>
         <h2 className={styles.title}>Create your StudyNotion account</h2>
 
-        {/* Toggle */}
+    
         <div className={styles.toggle}>
           {["Student", "Instructor"].map((type) => (
             <button
@@ -145,7 +145,7 @@ const Signup = () => {
         <form onSubmit={handleSubmit} className={styles.form}>
           <div className={styles.row}>
             <div className={styles.iconInput}>
-              <FaUser color="white" />
+              <FaUser className={styles.userIcon} color="white" />
               <input
                 type="text"
                 name="firstName"
@@ -153,11 +153,12 @@ const Signup = () => {
                 onChange={handleChange}
                 placeholder="First Name"
                 required
+                autoComplete="given-name"
               />
             </div>
 
             <div className={styles.iconInput}>
-              <FaUser color="white" />
+              <FaUser className={styles.userIcon}  color="white" />
               <input
                 type="text"
                 name="lastName"
@@ -165,12 +166,13 @@ const Signup = () => {
                 onChange={handleChange}
                 placeholder="Last Name"
                 required
+                autoComplete="family-name"
               />
             </div>
           </div>
 
           <div className={styles.iconInput}>
-            <FaEnvelope color="white" />
+            <FaEnvelope  className={styles.userIcon}  color="white" />
             <input
               type="email"
               name="email"
@@ -178,6 +180,7 @@ const Signup = () => {
               onChange={handleChange}
               placeholder="Email Address"
               required
+              autoComplete="email"
             />
           </div>
 
@@ -200,7 +203,7 @@ const Signup = () => {
             </select>
 
             <div className={styles.iconInput}>
-              <FaPhone color="white" />
+              <FaPhone  className={styles.userIcon}  color="white" />
               <input
                 type="tel"
                 name="contactNumber"
@@ -208,36 +211,60 @@ const Signup = () => {
                 onChange={handleChange}
                 placeholder="Phone Number"
                 required
+                autoComplete="tel"
               />
             </div>
           </div>
 
-          <div className={styles.iconInput}>
-            <FaLock color="white" />
-            <input
-              type="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              placeholder="Password"
-              required
-            />
-          </div>
+       <div className={styles.iconInput}>
+  <FaLock className={styles.leftIcon} />
 
-          <div className={styles.iconInput}>
-            <FaLock color="white" />
-            <input
-              type="password"
-              name="confirmPassword"
-              value={formData.confirmPassword}
-              onChange={handleChange}
-              placeholder="Confirm Password"
-              required
-            />
-          </div>
+  <input
+    type={showPassword ? "text" : "password"}
+    name="password"
+    value={formData.password}
+    onChange={handleChange}
+    placeholder="Password"
+    required
+    autoComplete="new-password"
+    className={styles.passinput}
+  />
+
+  <span
+    className={styles.rightIcon}
+    onClick={() => setShowPassword(prev => !prev)}
+  >
+    {showPassword ? <FaEyeSlash  /> : <FaEye  />}
+  </span>
+</div>
+
+       <div className={styles.iconInput}>
+  <FaLock className={styles.leftIcon} />
+
+  <input
+    type={showConfirmPassword ? "text" : "password"}
+    name="confirmPassword"
+    value={formData.confirmPassword}
+    onChange={handleChange}
+    placeholder="Confirm Password"
+    required
+    autoComplete="new-password"
+    className={styles.passinput}
+  />
+
+  <span
+    className={styles.rightIcon}
+    onClick={() => setShowConfirmPassword(prev => !prev)}
+  >
+    {showConfirmPassword ? <FaEyeSlash /> : <FaEye  />}
+  </span>
+</div>
 
           <button className={styles.submitBtn}>Create Account</button>
         </form>
+        <button 
+        onClick={() => naviagte("/login")}
+        className={styles.logintext}>Already registered? Log in here</button>
       </div>
 
       {/* OTP MODAL */}

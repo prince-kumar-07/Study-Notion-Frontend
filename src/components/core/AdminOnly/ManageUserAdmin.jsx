@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import styles from "./ManageUserAdmin.module.css";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchPendingInstructorAllUser, updateInstuctorStatus } from "../../../services/Oprations/Profile";
+import { VscShield } from "react-icons/vsc";
 
 export default function ManageUserAdmin() {
   const dispatch = useDispatch();
@@ -38,6 +39,11 @@ export default function ManageUserAdmin() {
 
       <div className={styles.header}>
         <h1 className={styles.title}>Instructor Approval Management</h1>
+
+          <div className={styles.securityBadge}>
+                           <VscShield />
+                           <span>Admin Access Only</span>
+                         </div>
 
         <input
           className={styles.search}

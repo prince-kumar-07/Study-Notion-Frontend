@@ -1,11 +1,13 @@
 .wrapper {
-  position: relative;
+  /* position: relative; */
   min-height: 100vh;
   width: 100%;
   padding: 60px 40px 120px;
   background: linear-gradient(135deg, #0f172a, #1e1b4b);
   color: white;
   font-family: "Inter", sans-serif;
+   position: relative;
+  isolation: isolate;
 }
 
 
@@ -354,8 +356,11 @@ background:rgba(0,0,0,0.6);
 display:flex;
 justify-content:center;
 align-items:center;
-z-index:999;
+/* z-index:999; */
 backdrop-filter:blur(6px);
+ inset: 0;
+  z-index: 9999;
+  
 }
 
 .modal{
@@ -447,3 +452,46 @@ animation:shake 0.3s;
 /* .adddress{
   width: 100%;
 } */
+
+@media (max-width: 768px) {
+
+  .imageSection {
+    flex-direction: column;
+    align-items: center;   
+    justify-content: center;
+    text-align: center;   
+  }
+
+  .imageButtons {
+    justify-content: center;
+  }
+
+   .avatar {
+    width: 190px;
+    height: 190px;
+  }
+
+  .imageButtons {
+    margin-top: 12px;
+  }
+
+  .dangerCard {
+    text-align: center;
+    padding: 35px 25px;
+  }
+
+  .dangerTitle {
+    justify-content: center; /* center icon + text */
+  }
+
+  .dangerCard p {
+    text-align: center;
+  }
+
+  .dangerBtn {
+    display: inline-block;
+    margin: 0 auto;
+  }
+
+
+}

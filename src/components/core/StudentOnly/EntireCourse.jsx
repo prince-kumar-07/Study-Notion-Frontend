@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { VscBook, VscShield } from "react-icons/vsc";
 // eslint-disable-next-line no-unused-vars
 import { motion, AnimatePresence } from "framer-motion";
-
+import {fetchCourseDeatils} from "../../../services/Oprations/Course"
 import { fetchEntireCourses } from "../../../services/Oprations/Course";
 import { useNavigate, useLocation } from "react-router-dom";
 import { addToCart } from "../../../Reducer/Slices/CartSlice";
@@ -22,12 +22,21 @@ export default function EntireCourse() {
   const [expandedCourse, setExpandedCourse] = useState(null);
   const [expandedSection, setExpandedSection] = useState(null);
 
-  // ✅ derive instead of storing in state
+    const isCatalogPage = useMemo(() => {
+    return location.pathname !== "/learn-more" && location.pathname !== "/dashboard/allcourses";
+  }, [location.pathname]);
+
   const isOpenRoute = useMemo(() => {
     return location.pathname !== "/learn-more";
   }, [location.pathname]);
 
-  // ✅ only fetch logic inside effect
+   useEffect(() => {
+    if (isCatalogPage) {
+      fetchEntireCourses(dispatch);
+    }
+  }, [dispatch]);
+
+ 
   useEffect(() => {
     if (!courses.length) {
       fetchEntireCourses(dispatch);
@@ -56,7 +65,7 @@ export default function EntireCourse() {
       );
     },
     [dispatch, navigate, user]
-  );
+  )
 
   const handleBuyNow = useCallback(
     (e) => {
@@ -66,8 +75,17 @@ export default function EntireCourse() {
         navigate("/login");
         return;
       }
+
+      if (!user && !courseId) {
+        toast.error("user or course data not available");
+        return;
+      }
+
+      const idArray = [courseId];
+
+      buyCourse(idArray, user, navigate, dispatch);
     },
-    [navigate, user]
+    [navigate, user],
   );
 
   return (
@@ -148,12 +166,19 @@ export default function EntireCourse() {
                       Add to Cart
                     </button>
 
-                    <button
+                     <button
                       className={styles.buyBtn}
-                      onClick={(e) => handleBuyNow(e)}
+                      onClick={() => fetchCourseDeatils(dispatch, course._id, navigate)}
+                    >
+                      View More
+                    </button>
+
+                    {/* <button
+                      className={styles.buyBtn}
+                      onClick={() => handleBuyNow(course._id)}
                     >
                       Buy Now
-                    </button>
+                    </button> */}
                   </div>
                 </div>
               </div>

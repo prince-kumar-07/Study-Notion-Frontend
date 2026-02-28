@@ -1,7 +1,10 @@
 const BASE_URL = import.meta.env.VITE_BASE_URL
 
 export const categories = {
-    CATEGORIES_API: BASE_URL + "/course/showAllCategories"
+    SHOW_ALL_CATEGORIES_API: BASE_URL + "/course/showAllCategories",
+    CREATE_CATEGORIES_API: BASE_URL + "/course/createCategory",
+    GET_CATEGORY_PAGE_DATA: BASE_URL + "/course/getCategoryPageDetails",
+    UPDATE_CATEGORY: BASE_URL + "/course/updateCategory",
 }
 
 
@@ -11,6 +14,7 @@ export const authEndPoints = {
     LOGIN_API: BASE_URL + "/auth/login",
     RESETPASSTOKEN_API: BASE_URL + "/auth/reset-password-token",
     RESETPASSWORD_API: BASE_URL + "/auth/reset-password",
+    POST_LOGIN_HANDLER_API: BASE_URL + "/auth/postLoginHandler",
 }
 
 
@@ -23,7 +27,7 @@ export const profileEndpoints = {
 export const studentEndpoints = {
   COURSE_PAYMENT_API: BASE_URL + "/payment/capturePayment",
   COURSE_VERIFY_API: BASE_URL + "/payment/verifyPayment",
-  SEND_PAYMENT_SUCCESS_EMAIL_API: BASE_URL + "/payment/sendPaymentSuccessEmail",
+  SEND_PYMENT_SUCCESS_EMAIL: BASE_URL + "/payment/sendPaymentSuccessEmail",
 }
 
 export const courseEndpoints = {
@@ -47,6 +51,10 @@ export const courseEndpoints = {
   LECTURE_COMPLETION_API: BASE_URL + "/course/updateCourseProgress",
   CREATE_RATING_API: BASE_URL + "/course/createRating",
   ENTIRE_COURSE_API: BASE_URL + "/course/entireCourse",
+  GET_ALL_COURSES_API: BASE_URL + "/course/getAllCourses",
+  GET_ENROLLED_COURSE_API: BASE_URL + "/course/getEnrolledCourses",
+  GET_ENROLLED_COURSE_DETAILS_API: BASE_URL + "/course/getEnrolledCourseDetails"
+
 }
 
 
@@ -54,21 +62,23 @@ export const ratingsEndpoints = {
   REVIEWS_DETAILS_API: BASE_URL + "/course/getReviews",
 }
 
-// CATAGORIES API
-// export const categories = {
-//   CATEGORIES_API: BASE_URL + "/course/showAllCategories",
-// }
-
-// CATALOG PAGE DATA
 export const catalogData = {
   CATALOGPAGEDATA_API: BASE_URL + "/course/getCategoryPageDetails",
 }
-// CONTACT-US API
+
 export const contactusEndpoint = {
   CONTACT_US_API: BASE_URL + "/reach/contact",
 }
 
-// SETTINGS PAGE API
+export const paymentEndpoint = {
+  CAPTURE_PAYMENT_API: BASE_URL + "/payment/capturePayment",
+  VERIFY_PAYMENT_API: BASE_URL + "/payment/verifyPayment",
+  SEND_PYMENT_SUCCESS_EMAIL: BASE_URL + "/payment/sendPaymentSuccessEmail",
+  SEND_PYMENT_FAIL_EMAIL: BASE_URL + "/payment/sendPaymentFailEmail",
+  GET_ALL_INVOICES: BASE_URL + "/payment/getAllInvoices",
+};
+
+
 export const settingsEndpoints = {
   UPDATE_DISPLAY_PICTURE_API: BASE_URL + "/profile/updateDisplayPicture",
   UPDATE_PROFILE_API: BASE_URL + "/profile/updateProfile",

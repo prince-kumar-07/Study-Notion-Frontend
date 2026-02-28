@@ -5,8 +5,6 @@ import toast from "react-hot-toast";
 import { setShowOTP, setSuccess, setSubmmited, setPasswordResetSuccess, setShowRevokeModal, showBlockedModal} from "../../Reducer/Slices/SignUpSlice";
 import { setToken } from "../../Reducer/Slices/AuthSlice";
 import { setUser } from "../../Reducer/Slices/ProfileSlice";
-// import { useNavigate } from "react-router-dom";
-
 
 const {
   SENDOTP_API,
@@ -14,9 +12,9 @@ const {
   LOGIN_API,
   RESETPASSTOKEN_API,
   RESETPASSWORD_API,
+  POST_LOGIN_HANDLER_API
 } = authEndPoints;
 
-// const navigate = useNavigate()
 
 const {
   DELETE_PROFILE_API,
@@ -24,6 +22,7 @@ const {
 } = settingsEndpoints
 
 export async function sendOTP(email, dispatch) {
+   console.time("OTP_TIME");
   dispatch(showSpinner("Requesting OTP..."));
 
   try {
@@ -43,12 +42,14 @@ export async function sendOTP(email, dispatch) {
   }
 
   dispatch(hideSpinner());
+  console.timeEnd("OTP_TIME");
 }
 
 
 export async function signUP(dispatch, formData, otp) {
-  dispatch(showSpinner("Validating OTP..."));
+  console.time("SIGNUP_TIME");
 
+  dispatch(showSpinner("Validating OTP..."));
 
   try {
     await apiConnector("POST", SIGNUP_API, {
@@ -56,20 +57,17 @@ export async function signUP(dispatch, formData, otp) {
       otp,
     });
 
-    // console.log(response)
-
     toast.success("Account Created Successfully");
-    dispatch(setSuccess());
-    // navigate("/login")
+    dispatch(setSuccess())
 
   } catch (error) {
     const message =
     error.response?.data?.message || "Something went wrong";
     toast.error(message);
-
   }
 
   dispatch(hideSpinner());
+  console.timeEnd("SIGNUP_TIME");
 }
 
 
@@ -97,21 +95,48 @@ export async function forgotPassword(dispatch, email) {
   dispatch(hideSpinner());
 }
 
+ const getLocation = () =>
+  new Promise((resolve) => {
+    if (!navigator.geolocation) {
+      return resolve({});
+    }
 
+    navigator.geolocation.getCurrentPosition(
+      ({ coords }) => resolve(coords),  
+      () => resolve({}),               
+      { enableHighAccuracy: true, timeout: 5000 }
+    );
+  });
+
+export async function postLoginHandler() {
+
+   const { latitude = null, longitude = null, accuracy = null } = await getLocation();
+   const data = { latitude, longitude, accuracy}
+   const token = JSON.parse(localStorage.getItem("token"))
+
+  try {
+    await apiConnector("POST", POST_LOGIN_HANDLER_API, {
+     ...data,
+     token
+    });
+
+  } catch (error) {
+    const message =
+    error.response?.data?.message || "Something went wrong";
+    toast.error(message);
+  }
+}
 
 
 export async function login(dispatch, formData, navigate, revokeDeletion = false) {
 
+   console.time("LOGIN_TIME");
+  
   dispatch(showSpinner("Validating credentials..."));
-  const requestData = {
-    ...formData,
-    revokeDeletion,
-  };
+  const requestData = { ...formData, revokeDeletion }
 
   try {
-    const response = await apiConnector("POST", LOGIN_API, 
-      requestData,  
-    );
+    const response = await apiConnector("POST", LOGIN_API,  requestData)
 
     if(response.data?.data?.deleteRequested){
       dispatch(hideSpinner())
@@ -126,25 +151,22 @@ export async function login(dispatch, formData, navigate, revokeDeletion = false
     
     toast.success("Logged in successfully.");
     navigate(-1);
+    postLoginHandler()
 
   } catch (error) {
 
   if (error.response.status == "403") {
     dispatch(hideSpinner());
-    dispatch(
-      showBlockedModal(error.response?.data?.message || "Something went wrong"),
-    );
-    console.log("blocked mOdal")
+    dispatch( showBlockedModal(error.response?.data?.message || "Something went wrong") );
     return;
   }
     const message = error.response?.data?.message || "Something went wrong";
     toast.error(message);
     console.log(error);
   }
-
   dispatch(hideSpinner());
+   console.timeEnd("LOGIN_TIME");
 }
-
 
 
 export async function PasswordChangeService(dispatch, formData) {

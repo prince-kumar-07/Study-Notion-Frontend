@@ -1,7 +1,7 @@
 // eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
 import './ctabutton.css';
-import { useNavigate } from "react-router-dom";git add .
+import { useNavigate } from "react-router-dom";
 import {MoveRight } from "lucide-react";
 
 function CTAButton({text, link, active}) {

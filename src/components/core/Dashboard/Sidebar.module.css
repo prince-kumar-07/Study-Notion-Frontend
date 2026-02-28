@@ -1,124 +1,142 @@
 .sidebar {
-  width: 250px;
+  position: fixed;   /* ALWAYS fixed */
+  top: 0;
+  left: 0;
+  width: 240px;
   height: 100vh;
+  z-index: 1000;
   background: #0f172a;
-  border-right: 1px solid #1e293b;
-  padding: 30px 20px;
+  color: white;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  position: fixed;
-  left: 0;
-  top: 0;
+  padding: 20px 0;
   transition: transform 0.3s ease;
+}
+/* Desktop → static sidebar
+@media (min-width: 901px) {
+  .sidebar {
+    position: relative;
+    transform: translateX(0);
+  }
+} */
+
+/* Mobile → slide */
+@media (max-width: 900px) {
+  .sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 1100;
+    transform: translateX(-100%);
+  }
+
+  .show {
+    transform: translateX(0);
+  }
+}
+
+/* Overlay */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
   z-index: 1000;
 }
 
+/* Heading */
 .heading {
   font-size: 18px;
   font-weight: 600;
-  color: #fff;
-  margin-bottom: 30px;
+  padding: 0 20px 20px;
+  color: #94a3b8;
 }
 
+/* Links */
 .links {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 6px;
 }
 
 .link {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 10px 12px;
-  border-radius: 8px;
-  text-decoration: none;
+  gap: 12px;
+  padding: 12px 20px;
+  text-decoration: none; /* IMPORTANT */
   color: #cbd5e1;
-  font-size: 14px;
-  transition: 0.2s ease;
   background: transparent;
   border: none;
   cursor: pointer;
+  transition: all 0.2s ease;
 }
 
 .link:hover {
   background: #1e293b;
-  color: #fff;
+  color: white;
+  text-decoration: none;
 }
 
 .activeLink {
-  composes: link;
-  background: linear-gradient(90deg, #7c3aed, #6366f1);
-  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 20px;
+  background: #1e293b;
+  color: #38bdf8;
+  text-decoration: none; /* REMOVE underline */
+}
+
+/* Bottom */
+.bottomLinks {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-bottom: 20px;
 }
 
 .icon {
   font-size: 18px;
 }
 
-.bottomLinks {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-/* Mobile */
-
+/* Mobile header */
 .mobileHeader {
   display: none;
+  justify-content: flex-end;
+  padding: 0 20px 10px;
 }
 
-.overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.6);
-  z-index: 999;
-}
-
-.show {
-  transform: translateX(0);
+.closeBtn {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
 }
 
 @media (max-width: 900px) {
-  .sidebar {
-    transform: translateX(-100%);
-  }
-
   .mobileHeader {
     display: flex;
-    justify-content: flex-end;
-    margin-bottom: 20px;
-  }
-
-  .closeBtn {
-    background: none;
-    border: none;
-    color: white;
-    cursor: pointer;
   }
 }
 
-/* Logout Modal */
-
+/* Logout modal */
 .modalOverlay {
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.6);
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   z-index: 2000;
 }
 
 .modal {
-  background: #0f172a;
-  padding: 30px;
+  background: #1e293b;
+  padding: 25px;
   border-radius: 12px;
-  width: 320px;
-  border: 1px solid #1e293b;
+  width: 300px;
   text-align: center;
-  color: white;
 }
 
 .modalActions {
@@ -128,19 +146,24 @@
 }
 
 .cancelBtn {
-  padding: 8px 16px;
-  border-radius: 6px;
   background: #334155;
   border: none;
+  padding: 8px 14px;
   color: white;
+  border-radius: 6px;
   cursor: pointer;
 }
 
 .confirmBtn {
-  padding: 8px 16px;
-  border-radius: 6px;
-  background: linear-gradient(90deg, #ef4444, #dc2626);
+  background: #ef4444;
   border: none;
+  padding: 8px 14px;
   color: white;
+  border-radius: 6px;
   cursor: pointer;
+}
+
+.wrapper {
+  max-width: 1100px;
+  margin: 0 auto;
 }

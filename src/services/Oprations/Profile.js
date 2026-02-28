@@ -178,7 +178,7 @@ export async function fetchPendingInstructorAllUser(dispatch) {
     const response = await apiConnector("GET", GET_ALL_PENDING_INSTRUCTOR, {
       token,
     });
-    console.log(response)
+    // console.log(response)
     dispatch(setPendingInstructor(response.data.data));
   } catch (error) {
     toast.error(error.response?.data?.message || "Fetch all user failed");

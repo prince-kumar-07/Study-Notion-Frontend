@@ -18,7 +18,7 @@
 }
 
 
-/* HEADER */
+
 
 .header {
 
@@ -73,7 +73,7 @@
 }
 
 
-/* CARD */
+
 
 .card {
 
@@ -93,7 +93,6 @@
 }
 
 
-/* TABLE HEADER */
 
 .tableHeader {
 
@@ -110,7 +109,6 @@
 }
 
 
-/* ROW */
 
 .row {
 
@@ -135,8 +133,6 @@
 
 }
 
-
-/* USER */
 
 .user {
 
@@ -175,8 +171,6 @@
 }
 
 
-/* EMAIL */
-
 .email {
 
   color: #cbd5e1;
@@ -190,7 +184,6 @@
 }
 
 
-/* STATUS */
 
 .status {
 
@@ -231,8 +224,6 @@
 
 }
 
-
-/* ACTION */
 
 .actions {
 
@@ -279,8 +270,6 @@
 }
 
 
-/* ================= TABLET ================= */
-
 @media (max-width: 900px) {
 
   .container {
@@ -306,9 +295,6 @@
   }
 
 }
-
-
-/* ================= MOBILE ================= */
 
 @media (max-width: 600px) {
 
@@ -361,5 +347,20 @@
     width: 100%;
 
   }
+
+}
+
+.securityBadge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(135deg, #9333ea, #6366f1);
+  padding: 8px 16px;
+  border-radius: 50px;
+  font-size: 13px;
+  font-weight: 600;
+  color: white;
+  width: 200px;
+  justify-content: center;
 
 }

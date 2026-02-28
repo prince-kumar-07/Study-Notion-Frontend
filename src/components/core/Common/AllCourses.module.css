@@ -1,0 +1,130 @@
+.wrapper {
+  position: relative;
+  padding: 80px 8%;
+  min-height: 100vh;
+  background: #0b1120;
+  color: white;
+  overflow: hidden;
+}
+
+/* Floating Animated Gradient */
+.bgGradient {
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, #6366f1, #a855f7);
+  filter: blur(140px);
+  opacity: 0.25;
+  animation: float 14s ease-in-out infinite alternate;
+  top: -150px;
+  right: -100px;
+  pointer-events: none;
+}
+
+@keyframes float {
+  0% { transform: translate(0,0); }
+  100% { transform: translate(-80px,60px); }
+}
+
+/* Header */
+.header {
+  text-align: center;
+  margin-bottom: 60px;
+  position: relative;
+  z-index: 2;
+}
+
+.header h1 {
+  font-size: 42px;
+  margin-bottom: 15px;
+  background: linear-gradient(90deg,#6366f1,#a855f7);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.header p {
+  color: #94a3b8;
+}
+
+/* Grid */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(300px,1fr));
+  gap: 30px;
+  position: relative;
+  z-index: 2;
+}
+
+/* Card */
+.card {
+  backdrop-filter: blur(20px);
+  background: rgba(30, 41, 59, 0.6);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 20px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: 0.3s;
+  box-shadow: 0 15px 50px rgba(0,0,0,0.4);
+}
+
+.card:hover {
+  border-color: #6366f1;
+  box-shadow: 0 20px 60px rgba(99,102,241,0.3);
+}
+
+/* Image */
+.imageWrapper {
+  height: 200px;
+  overflow: hidden;
+}
+
+.imageWrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: 0.4s;
+}
+
+.card:hover img {
+  transform: scale(1.08);
+}
+
+/* Body */
+.cardBody {
+  padding: 20px;
+}
+
+.cardBody h3 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.desc {
+  font-size: 14px;
+  color: #94a3b8;
+  margin-bottom: 18px;
+}
+
+.meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.instructor {
+  font-size: 13px;
+  color: #cbd5e1;
+}
+
+.price {
+  font-weight: 600;
+  font-size: 16px;
+  color: #6366f1;
+}
+
+/* Responsive */
+@media(max-width:768px){
+  .header h1 {
+    font-size: 32px;
+  }
+}

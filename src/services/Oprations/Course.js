@@ -2,7 +2,7 @@ import { showSpinner, hideSpinner } from "../../Reducer/Slices/SpinnerSlice";
 import { apiConnector } from "../apiConnector";
 import toast from "react-hot-toast";
 import { courseEndpoints } from "../api";
-import { setAllCourses } from "../../Reducer/Slices/CourseSlice";
+import { setAllCourses, setCourseDetail, setEnrolledCourse, setEntrolledCourseData } from "../../Reducer/Slices/CourseSlice";
 
 const {
   CREATE_COURSE_API,
@@ -16,9 +16,58 @@ const {
   CREATE_SUBSECTION_API,
   DELETE_SECTION_API,
   DELETE_SUBSECTION_API,
-  ENTIRE_COURSE_API
+  ENTIRE_COURSE_API,
+  COURSE_DETAILS_API,
+  GET_ALL_COURSES_API,
+  GET_ENROLLED_COURSE_API,
+  GET_ENROLLED_COURSE_DETAILS_API
 
 } = courseEndpoints
+
+
+export async function fetchAllCourse(dispatch) {
+  dispatch(showSpinner("Fetching All Courses..."));
+
+  try {
+    const response = await apiConnector(
+      "GET", GET_ALL_COURSES_API )
+
+    dispatch(setAllCourses(response.data.data));
+    // console.log(response.data)
+
+  } catch (error) {
+    toast.error(
+      error.response?.data?.message ||
+        "Some thing went wrong while fetching all coures",
+    );
+    console.log(error);
+  }
+  dispatch(hideSpinner());
+}
+
+
+export async function fetchCourseDeatils(dispatch, courseId, navigate) {
+  dispatch(showSpinner("Fetching Course Deatils..."));
+
+  try {
+    const response = await apiConnector(
+      "GET",
+      `${COURSE_DETAILS_API}/${courseId}`,
+    )
+
+    dispatch(setCourseDetail(response.data.data));
+    navigate(`/CourseDeatils/${courseId}`);
+
+  } catch (error) {
+    toast.error(
+      error.response?.data?.message ||
+        "Some thing went wrong while getting coures",
+    );
+    console.log(error);
+  }
+  dispatch(hideSpinner());
+}
+
 
 export async function addNewCourse(dispatch, data, naviagte) {
   dispatch(showSpinner("Creating Course..."));
@@ -51,22 +100,13 @@ export async function fetchCreatedCourse(dispatch){
 
    dispatch(showSpinner("Fetching all Courses..."));
    const token = JSON.parse(localStorage.getItem("token"))
-  //  console.log(id)
-
-    //  console.log(user)
-
+  
    try {
     const response = await apiConnector(
       "GET",
        GET_CREATED_COURSE_API,
       token,
-      // {
-      //   Authorization: `Bearer ${token}`,
-      //   "Content-Type": "multipart/form-data",
-      // }
     );
-    // console.log(response.data.data)
-    // toast.success("All Courses Fetched Sucessfully")
     dispatch(setAllCourses(response.data.data));
 
   } catch (error) {
@@ -342,3 +382,46 @@ export async function fetchEntireCourses(dispatch){
   dispatch(hideSpinner());
 }
 
+export async function fetchEntrolledCourse(dispatch, userId) {
+  dispatch(showSpinner("Fetching All Enrolled Courses..."));
+  // console.log(userId)
+
+  try {
+    const response = await apiConnector(
+      "GET", 
+       `${GET_ENROLLED_COURSE_API}/${userId}`, )
+
+    dispatch(setEnrolledCourse(response.data.data));
+    // console.log(response.data.data)
+
+  } catch (error) {
+    toast.error(
+      error.response?.data?.message ||
+        "Some thing went wrong while fetching all Enrolled courses",
+    );
+    console.log(error);
+  }
+  dispatch(hideSpinner());
+}
+
+export async function fetchEntrolledCourseDeatils(dispatch, courseId) {
+  dispatch(showSpinner("Fetching Course..."));
+  console.log("fetchEntrolledCourseDeatils " + courseId)
+
+  try {
+    const response = await apiConnector(
+      "GET", 
+       `${GET_ENROLLED_COURSE_DETAILS_API}/${courseId}`, )
+
+    dispatch(setEntrolledCourseData(response.data.data));
+     console.log(response.data.data)
+   
+  } catch (error) {
+    toast.error(
+      error.response?.data?.message ||
+        "Some thing went wrong while fetching Enrolled course",
+    );
+    console.log(error);
+  }
+  dispatch(hideSpinner());
+}

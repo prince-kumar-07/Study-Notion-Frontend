@@ -1,44 +1,21 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import styles from "./AddCourseInstructorOnly.module.css";
 // eslint-disable-next-line no-unused-vars
 import { motion, AnimatePresence } from "framer-motion";
 import { VscCloudUpload } from "react-icons/vsc";
-import  {addNewCourse} from "../../../services/Oprations/Course";
+import { addNewCourse } from "../../../services/Oprations/Course";
 import { useDispatch } from "react-redux";
-// import { useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-
 import { VscShield } from "react-icons/vsc";
 
-
-
-
-// const allCourses = useSelector((state) => state.course.allCourse);
-
-
-
-
-
-const AddCourseInstructorOnly = () => {
-  // const { token } = useSelector((state) => state.auth);
-  const dispatch = useDispatch()
+function AddCourseInstructorOnly() {
+  const { allCategory } = useSelector((state) => state.category);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-  
-
-const [categoryData, setCategoryData] = useState([]);
-
-useEffect(() => {
-  function loadCategories() {
-    const stored = localStorage.getItem("category");
-    const parsed = stored ? JSON.parse(stored) : [];
-    setCategoryData(parsed);
-  }
-
-  loadCategories();
-}, []);
-
-
   const [step, setStep] = useState(1);
+  const [thumbnail, setThumbnail] = useState(null);
+  const [preview, setPreview] = useState(null);
 
   const [formData, setFormData] = useState({
     courseName: "",
@@ -48,9 +25,6 @@ useEffect(() => {
     tag: "",
     category: "",
   });
-
-  const [thumbnail, setThumbnail] = useState(null);
-  const [preview, setPreview] = useState(null);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -73,27 +47,22 @@ useEffect(() => {
     data.append("price", formData.price);
     data.append("tag", formData.tag);
     data.append("category", formData.category);
-
     data.append("thumbnailImage", thumbnail);
-
 
     addNewCourse(dispatch, data, navigate);
   }
 
-
   return (
     <div className={styles.wrapper}>
-     <div className={styles.header}>
-  <h1 className={styles.title}>Create New Course</h1>
+      <div className={styles.header}>
+        <h1 className={styles.title}>Create New Course</h1>
 
-  <span className={styles.badge}>
-    <VscShield />
-    Instructor Only
-  </span>
-</div>
+        <span className={styles.badge}>
+          <VscShield />
+          Instructor Only
+        </span>
+      </div>
 
-
-      {/* Stepper */}
       <div className={styles.stepper}>
         {[1, 2, 3].map((s) => (
           <div
@@ -106,7 +75,6 @@ useEffect(() => {
       </div>
 
       <div className={styles.card}>
-        {/* LEFT SECTION */}
         <div className={styles.leftSection}>
           <AnimatePresence mode="wait">
             <motion.div
@@ -183,7 +151,7 @@ useEffect(() => {
                   >
                     <option value="">Select Category</option>
 
-                    {categoryData.map((cat) => (
+                    {allCategory.map((cat) => (
                       <option key={cat._id} value={cat._id}>
                         {cat.name}
                       </option>
@@ -295,6 +263,6 @@ useEffect(() => {
       </div>
     </div>
   );
-};
+}
 
 export default AddCourseInstructorOnly;

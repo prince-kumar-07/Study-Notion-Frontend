@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from "react";
 // eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
+import { VscShield } from "react-icons/vsc";
 import {
   VscGraph,
   VscAdd,
@@ -33,7 +34,6 @@ export default function RevenueAndExpense() {
   const [showModal, setShowModal] = useState(false);
   const [form, setForm] = useState({ title: "", type: "Revenue", amount: "" });
 
-  // ================= FILTER =================
   const filteredTransactions = useMemo(() => {
     if (monthFilter === "All") return transactions;
     return transactions.filter((t) =>
@@ -41,7 +41,7 @@ export default function RevenueAndExpense() {
     );
   }, [monthFilter, transactions]);
 
-  // ================= SUMMARY =================
+
   const summary = useMemo(() => {
     const revenue = filteredTransactions
       .filter((t) => t.amount > 0)
@@ -62,12 +62,11 @@ export default function RevenueAndExpense() {
     };
   }, [filteredTransactions]);
 
-  // ================= AI FORECAST =================
   const forecast = useMemo(() => {
     return Math.round(summary.profit * 1.12); // 12% projected growth
   }, [summary]);
 
-  // ================= GRAPH DATA =================
+
   const chartData = filteredTransactions.map((t) => ({
     date: t.date,
     value: t.amount,
@@ -113,36 +112,36 @@ export default function RevenueAndExpense() {
             <VscGraph />
           </div>
           <h1>Revenue & Expense</h1>
-          <span className={styles.ceoBadge}>CEO ONLY</span>
+        
+          <div className={styles.securityBadge}>
+            <VscShield />
+            <span>Admin Access Only</span>
+          </div>
         </div>
 
         <div className={styles.actions}>
-  <div className={styles.toolbarGroup}>
-    <select
-      onChange={(e) => setMonthFilter(e.target.value)}
-      className={styles.monthFilter}
-    >
-      <option value="All">All Months</option>
-      <option value="2026-05">May 2026</option>
-      <option value="2026-04">April 2026</option>
-    </select>
+          <div className={styles.toolbarGroup}>
+            <select
+              onChange={(e) => setMonthFilter(e.target.value)}
+              className={styles.monthFilter}
+            >
+              <option value="All">All Months</option>
+              <option value="2026-05">May 2026</option>
+              <option value="2026-04">April 2026</option>
+            </select>
 
-    <button
-      onClick={() => setShowModal(true)}
-      className={styles.addBtn}
-    >
-      + Add
-    </button>
+            <button
+              onClick={() => setShowModal(true)}
+              className={styles.addBtn}
+            >
+              + Add
+            </button>
 
-    <button
-      onClick={exportPDF}
-      className={styles.exportBtn}
-    >
-      ⬇ Export
-    </button>
-  </div>
-</div>
-
+            <button onClick={exportPDF} className={styles.exportBtn}>
+              ⬇ Export
+            </button>
+          </div>
+        </div>
       </div>
 
       {/* SUMMARY CARDS */}
@@ -203,13 +202,7 @@ export default function RevenueAndExpense() {
           <div key={index} className={styles.row}>
             <div>{item.title}</div>
             <div>{item.date}</div>
-            <div
-              className={
-                item.amount > 0
-                  ? styles.green
-                  : styles.red
-              }
-            >
+            <div className={item.amount > 0 ? styles.green : styles.red}>
               {item.amount > 0 ? "+" : "-"} ₹
               {Math.abs(item.amount).toLocaleString()}
             </div>
@@ -230,16 +223,12 @@ export default function RevenueAndExpense() {
             <input
               placeholder="Transaction Title"
               value={form.title}
-              onChange={(e) =>
-                setForm({ ...form, title: e.target.value })
-              }
+              onChange={(e) => setForm({ ...form, title: e.target.value })}
             />
 
             <select
               value={form.type}
-              onChange={(e) =>
-                setForm({ ...form, type: e.target.value })
-              }
+              onChange={(e) => setForm({ ...form, type: e.target.value })}
             >
               <option>Revenue</option>
               <option>Expense</option>
@@ -249,18 +238,12 @@ export default function RevenueAndExpense() {
               type="number"
               placeholder="Amount"
               value={form.amount}
-              onChange={(e) =>
-                setForm({ ...form, amount: e.target.value })
-              }
+              onChange={(e) => setForm({ ...form, amount: e.target.value })}
             />
 
             <div className={styles.modalActions}>
-              <button onClick={() => setShowModal(false)}>
-                Cancel
-              </button>
-              <button onClick={addTransaction}>
-                Add
-              </button>
+              <button onClick={() => setShowModal(false)}>Cancel</button>
+              <button onClick={addTransaction}>Add</button>
             </div>
           </motion.div>
         </div>

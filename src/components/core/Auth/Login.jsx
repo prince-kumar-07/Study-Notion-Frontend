@@ -1,8 +1,12 @@
 import { useState } from "react";
 import styles from "./Login.module.css";
-import { Mail, Lock } from "lucide-react";
+import { Mail, Lock, Eye, EyeOff } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
-import { removeShowRevokeModal, removeSubmited, removeBlockedModal} from "../../../Reducer/Slices/SignUpSlice";
+import {
+  removeShowRevokeModal,
+  removeSubmited,
+  removeBlockedModal
+} from "../../../Reducer/Slices/SignUpSlice";
 import { showSpinner } from "../../../Reducer/Slices/SpinnerSlice";
 import { forgotPassword, login } from "../../../services/Oprations/Auth";
 import usePageTitle from "../../../services/Oprations/Title/Title";
@@ -10,46 +14,29 @@ import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 
 export default function Login() {
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  usePageTitle("Login"); 
-const {
-  showRevokeModal,
-  deletionDate,
-  submitted,
-  blockedModal,
-  blockedMessage
-} = useSelector(s => s.signup || {});
+  usePageTitle("Login");
+
+  const {
+    showRevokeModal,
+    deletionDate,
+    submitted,
+    blockedModal,
+    blockedMessage
+  } = useSelector(s => s.signup || {});
+
   const [showModal, setShowModal] = useState(false);
+  const [showPassword, setShowPassword] = useState(false); // NEW
   const [emails, setEmails] = useState({ reset: "", confirm: "" });
   const [formData, setFormData] = useState({ email: "", password: "" });
+
   const handleChange = e =>
     setFormData(s => ({ ...s, [e.target.name]: e.target.value }));
 
-  const getLocation = () =>
-    new Promise((resolve, reject) => {
-      if (!navigator.geolocation)
-        return reject(toast.error("Geolocation not supported"));
-
-      navigator.geolocation.getCurrentPosition(
-        ({ coords }) => resolve(coords),
-        ({ message }) => reject(new Error(message))
-      );
-    });
-
   const handleLogin = async (revoke = false) => {
     dispatch(showSpinner("Validating credentials..."));
-
     let data = { ...formData };
-
-    try {
-      const { latitude, longitude, accuracy } = await getLocation();
-      data = { ...data, latitude, longitude, accuracy };
-    } catch(error) {
-      console.log(error)
-    }
-
     login(dispatch, data, navigate, revoke);
     revoke && dispatch(removeShowRevokeModal());
   };
@@ -79,19 +66,47 @@ const {
           }}
           className={styles.form}
         >
-
+          {/* EMAIL */}
           <div className={styles.inputGroup}>
             <Mail size={18} className={styles.icon} />
-            <input name="email" type="email" required value={formData.email} onChange={handleChange} placeholder=" " />
+            <input
+              name="email"
+              type="email"
+              required
+              value={formData.email}
+              onChange={handleChange}
+              placeholder=" "
+              autoComplete="email"
+            />
             <label>Email Address</label>
           </div>
 
-          <div className={styles.inputGroup}>
-            <Lock size={18} className={styles.icon} />
-            <input name="password" type="password" required value={formData.password} onChange={handleChange} placeholder=" " />
-            <label>Password</label>
-          </div>
+          {/* PASSWORD */}
+         <div className={styles.inputGroup}>
+  <Lock size={18} className={styles.leftIcon} />
 
+  <input
+    name="password"
+    type={showPassword ? "text" : "password"}
+    required
+    value={formData.password}
+    onChange={handleChange}
+    placeholder=" "
+    autoComplete="current-password"
+    className={styles.input}
+  />
+
+  <label>Password</label>
+
+  <span
+    className={styles.rightIcon}
+    onClick={() => setShowPassword(prev => !prev)}
+  >
+    {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+  </span>
+</div>
+
+          {/* FORGOT PASSWORD */}
           <div className={styles.forgot}>
             <button
               type="button"
@@ -109,9 +124,19 @@ const {
           <button type="submit" className={styles.loginButton}>
             Login
           </button>
+
+          {/* SIGNUP REDIRECT */}
+          <div style={{ textAlign: "center", marginTop: "15px" }}>
+            <span style={{color: "#50cdf0", fontSize: "18px",  cursor: "pointer", fontWeight: 500  }}
+            onClick={() => navigate("/signup")}
+            >
+              Don’t have an account? Sign Up
+            </span>
+          </div>
         </form>
       </div>
 
+      {/* RESET PASSWORD MODAL */}
       {showModal && (
         <div className={styles.modalOverlay}>
           <div className={styles.modal}>
@@ -126,14 +151,21 @@ const {
                     <input
                       type="email"
                       value={emails[key]}
-                      onChange={e => setEmails(s => ({ ...s, [key]: e.target.value }))}
+                      onChange={e =>
+                        setEmails(s => ({ ...s, [key]: e.target.value }))
+                      }
                       placeholder=" "
                     />
-                    <label>{key === "reset" ? "Email" : "Confirm Email"}</label>
+                    <label>
+                      {key === "reset" ? "Email" : "Confirm Email"}
+                    </label>
                   </div>
                 ))}
 
-                <button className={styles.modalButton} onClick={handleResetSubmit}>
+                <button
+                  className={styles.modalButton}
+                  onClick={handleResetSubmit}
+                >
                   Send Reset Link
                 </button>
               </>
@@ -149,6 +181,7 @@ const {
         </div>
       )}
 
+      {/* REVOKE MODAL */}
       {showRevokeModal && (
         <div className={styles.modalOverlay}>
           <div className={styles.modal}>
@@ -163,13 +196,17 @@ const {
             <p>Logging in now will restore your account.</p>
 
             <div className={styles.modalButtons}>
-              <button className={styles.cancelBtn}
-                onClick={() => dispatch(removeShowRevokeModal())}>
+              <button
+                className={styles.cancelBtn}
+                onClick={() => dispatch(removeShowRevokeModal())}
+              >
                 Keep Scheduled
               </button>
 
-              <button className={styles.confirmBtn}
-                onClick={() => handleLogin(true)}>
+              <button
+                className={styles.confirmBtn}
+                onClick={() => handleLogin(true)}
+              >
                 Revoke Deletion
               </button>
             </div>
@@ -177,32 +214,25 @@ const {
         </div>
       )}
 
-
+      {/* BLOCKED MODAL */}
       {blockedModal && (
-  <div className={styles.modalOverlay}>
-    <div className={styles.modal}>
+        <div className={styles.modalOverlay}>
+          <div className={styles.modal}>
+            <h3 className={styles.modalTitle}>Account Blocked</h3>
 
-      <h3 className={styles.modalTitle}>
-        Account Blocked
-      </h3>
+            <p className={styles.modalText}>{blockedMessage}</p>
 
-      <p className={styles.modalText}>
-        {blockedMessage}
-      </p>
-
-      <div className={styles.modalButtons}>
-        <button
-          className={styles.confirmBtn}
-          onClick={() => dispatch(removeBlockedModal())}
-        >
-          OK
-        </button>
-      </div>
-
-    </div>
-  </div>
-)}
-
+            <div className={styles.modalButtons}>
+              <button
+                className={styles.confirmBtn}
+                onClick={() => dispatch(removeBlockedModal())}
+              >
+                OK
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -9,6 +9,7 @@ import {
   VscClose,
   VscGraph 
 } from "react-icons/vsc";
+import { BsDatabaseAdd } from "react-icons/bs";
 import { BiSupport } from "react-icons/bi";
 import { MdManageAccounts } from "react-icons/md";
 import { FiShoppingCart } from "react-icons/fi"
@@ -87,6 +88,11 @@ function Sidebar({ isOpen, setIsOpen }) {
         name: "Support",
         path: "/dashboard/admin-contact-manager",
         icon: <BiSupport />,
+      },
+       {
+        name: "Manage Catelog",
+        path: "/dashboard/admin-catelog-management",
+        icon: <BsDatabaseAdd />,
       },
     ],
   };

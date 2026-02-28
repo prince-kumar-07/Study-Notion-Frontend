@@ -5,7 +5,6 @@
   color:white;
 }
 
-/* HEADER */
 
 .header{
   display:flex;
@@ -33,7 +32,7 @@
   gap:6px;
 }
 
-/* COURSE LIST */
+
 
 .courseList{
   display:flex;
@@ -41,7 +40,7 @@
   gap:20px;
 }
 
-/* COURSE CARD */
+
 
 .courseCard{
   background:linear-gradient(145deg,#020617,#0f172a);
@@ -56,7 +55,7 @@
   box-shadow:0 0 20px rgba(99,102,241,0.15);
 }
 
-/* COURSE HEADER */
+
 
 .courseHeader{
   display:flex;
@@ -245,7 +244,7 @@
   opacity:.5;
 }
 
-/* RESPONSIVE */
+
 
 @media(max-width:768px){
 

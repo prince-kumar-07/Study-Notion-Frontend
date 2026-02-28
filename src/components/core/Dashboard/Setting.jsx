@@ -14,6 +14,7 @@ import usePageTitle from "../../../services/Oprations/Title/Title";
 import { FiAlertTriangle, FiLock } from "react-icons/fi";
 // eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
+import { useRef } from "react";
 
 function Settings() {
 
@@ -30,6 +31,8 @@ function Settings() {
     hour12: true,
   });
 };
+
+const deleteSectionRef = useRef(null);
 
 
   const user = useSelector((state) => state.profile.user);
