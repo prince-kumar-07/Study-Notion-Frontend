@@ -13,6 +13,8 @@ import PublicRoute from "./services/Oprations/RouteProtection/PublicRoute";
 import RoleRoute from "./services/Oprations/RouteProtection/RoleBaseRoute";
 
 import { showSpinner, hideSpinner } from "./Reducer/Slices/SpinnerSlice";
+import ColdStartOverlay from "./components/core/Others/ColdStartOverlay";
+import { initColdStart } from "./services/coldStart";
 
 // Lazy imports
 const Home = lazy(() => import("./pages/Home"));
@@ -113,6 +115,10 @@ function App() {
   const { isLoading } = useSelector((state) => state.spinner);
   const location = useLocation();
 
+
+  useEffect(() => {
+    initColdStart();
+  }, []);
 
   useEffect(() => {
 
@@ -475,6 +481,8 @@ function App() {
 
       {/* Global Redux Spinner */}
       {isLoading && <Spinner />}
+
+      <ColdStartOverlay />
 
     </div>
   );
